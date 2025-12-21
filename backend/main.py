@@ -68,23 +68,23 @@ def run_inference():
             "id": "grid-101",
             "coords": [[[-87.5, 44.0], [-87.0, 44.0], [-87.0, 44.5], [-87.5, 44.5], [-87.5, 44.0]]],
             "species": "Sea Lamprey",
-            # Features for the model: [temp_anomaly, dist_source, traffic]
-            "features": [1.8, 12.0, 0.8], 
-            "drivers": ["High thermal anomaly (+1.8°C)", "Proximity to source (12km)", "High vessel traffic"]
+            # Features: [temp_anomaly, dist_source, traffic, dissolved_oxygen, flow_velocity]
+            "features": [1.8, 12.0, 0.8, 7.5, 0.2], 
+            "drivers": ["High thermal anomaly (+1.8°C)", "Proximity to source (12km)", "High vessel traffic", "Moderate Flow"]
         },
         {
             "id": "grid-102", # New Region
             "coords": [[[-86.5, 44.0], [-86.0, 44.0], [-86.0, 44.5], [-86.5, 44.5], [-86.5, 44.0]]],
             "species": "Silver Carp",
-            "features": [0.2, 85.0, 0.3], 
-            "drivers": ["Low temperature variance", "Distance from source (85km)"]
+            "features": [0.2, 85.0, 0.3, 9.0, 1.2], 
+            "drivers": ["Low temperature variance", "Distance from source (85km)", "Strong Currents (1.2m/s)"]
         },
         {
             "id": "grid-103",
             "coords": [[[-87.5, 43.5], [-87.0, 43.5], [-87.0, 44.0], [-87.5, 44.0], [-87.5, 43.5]]],
             "species": "Asian Carp Complex",
-            "features": [1.1, 5.0, 0.9],
-            "drivers": ["Hydrological connection", "Optimal feeding conditions", "Recent eDNA signal"]
+            "features": [1.1, 5.0, 0.9, 4.2, 0.1],
+            "drivers": ["Hydrological connection", "Optimal feeding conditions", "Recent eDNA signal", "Stagnant Water (High Retention)"]
         }
     ]
 
@@ -94,7 +94,10 @@ def run_inference():
     if model:
         # Extract features into a DataFrame
         feature_data = [r['features'] for r in regions]
-        df_features = pd.DataFrame(feature_data, columns=['water_temp_anomaly', 'distance_to_source', 'vessel_traffic_density'])
+        df_features = pd.DataFrame(feature_data, columns=[
+            'water_temp_anomaly', 'distance_to_source', 'vessel_traffic_density', 
+            'dissolved_oxygen', 'flow_velocity'
+        ])
         
         # Scikit-Learn Predict
         predictions = model.predict(df_features)
