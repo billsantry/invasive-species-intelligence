@@ -202,9 +202,14 @@ function updateSidePanel(props) {
         document.getElementById('pred-expl').innerHTML = `
             ${props.explanation} <br><br>
             <strong>Key Drivers:</strong>
-            <ul style="padding-left:1rem; margin-bottom:0;">
+            <ul style="padding-left:1rem; margin-bottom:0.75rem;">
                 ${props.drivers.map(d => `<li>${d}</li>`).join('')}
             </ul>
+            
+            <div style="font-size: 0.75rem; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.5rem;">
+                <strong>Tracking Sources:</strong><br>
+                ${props.citations ? props.citations.join('<br>') : 'Model Inference Only'}
+            </div>
         `;
 
         container.style.opacity = '1';
