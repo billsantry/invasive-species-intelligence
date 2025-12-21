@@ -140,30 +140,41 @@ async def run_inference():
     
     # Define our grid cells (normally this would come from a database)
     regions = [
+        # REGION 1: SEA LAMPREY (Legacy Threat)
         {
             "id": "grid-101",
             "coords": [[[-87.5, 44.0], [-87.0, 44.0], [-87.0, 44.5], [-87.5, 44.5], [-87.5, 44.0]]],
             "species": "Sea Lamprey",
-            # Features: [temp_anomaly, dist_source, traffic, dissolved_oxygen, flow_velocity]
             "features": [1.8, 12.0, 0.8, 7.5, 0.2], 
             "drivers": ["High thermal anomaly (+1.8°C)", "Proximity to source (12km)", "High vessel traffic", "Moderate Flow"],
-            "citations": ["NOAA GLERL"]
+            "citations": ["NOAA GLERL", "Great Lakes Commission"]
         },
+        # REGION 2: SILVER CARP (High Priority)
         {
-            "id": "grid-102", # New Region
+            "id": "grid-102", 
             "coords": [[[-86.5, 44.0], [-86.0, 44.0], [-86.0, 44.5], [-86.5, 44.5], [-86.5, 44.0]]],
             "species": "Silver Carp",
             "features": [0.2, 85.0, 0.3, 9.0, 1.2], 
             "drivers": ["Low temperature variance", "Distance from source (85km)", "Strong Currents (1.2m/s)"],
-            "citations": ["US Fish & Wildlife Service"]
+            "citations": ["US Fish & Wildlife Service", "White House Memoranda Data"]
         },
+        # REGION 3: BIGHEAD CARP (Live Data Focus)
         {
             "id": "grid-103",
             "coords": [[[-87.5, 43.5], [-87.0, 43.5], [-87.0, 44.0], [-87.5, 44.0], [-87.5, 43.5]]],
-            "species": "Asian Carp Complex",
+            "species": "Bighead Carp",
             "features": grid103_features,
             "drivers": grid103_drivers,
             "citations": grid103_citations
+        },
+        # REGION 4: CANADIAN BORDER (Cross-Agency)
+        {
+            "id": "grid-105-can",
+            "coords": [[[-83.1, 42.3], [-82.9, 42.3], [-82.9, 42.4], [-83.1, 42.4], [-83.1, 42.3]]], # Detroit River/Lake St Clair
+            "species": "Grass Carp",
+            "features": [0.5, 5.0, 0.9, 8.2, 0.4],
+            "drivers": ["High wetland connectivity", "Spawning habitat match"],
+            "citations": ["Fisheries and Oceans Canada (DFO)", "Invasive Species Centre (Canada)"]
         }
     ]
 
