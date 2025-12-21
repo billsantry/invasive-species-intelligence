@@ -1,0 +1,134 @@
+{
+    "metadata": {
+        "model_version": "v0.2.0-alpha",
+        "generated_at": "2025-12-21T12:00:00Z",
+        "disclaimer": "Predictions are probabilistic and based on public, incomplete data. Intended for exploratory analysis only."
+    },
+    "regions": [
+        {
+            "id": "grid-101",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -87.5,
+                            44.0
+                        ],
+                        [
+                            -87.0,
+                            44.0
+                        ],
+                        [
+                            -87.0,
+                            44.5
+                        ],
+                        [
+                            -87.5,
+                            44.5
+                        ],
+                        [
+                            -87.5,
+                            44.0
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "risk_score": 0.85,
+                "risk_label": "High",
+                "confidence": "Medium",
+                "species": "Sea Lamprey",
+                "drivers": [
+                    "Proximity to known breeding grounds (Des Plaines River)",
+                    "Rising average water temperature (+1.2°C anomaly)",
+                    "High vessel traffic density"
+                ],
+                "explanation": "Grid 101 shows a high likelihood of Sea Lamprey expansion due to favorable thermal conditions and established upstream populations. The medium confidence reflects gaps in recent bottom-trawl data."
+            }
+        },
+        {
+            "id": "grid-102",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -86.5,
+                            44.0
+                        ],
+                        [
+                            -86.0,
+                            44.0
+                        ],
+                        [
+                            -86.0,
+                            44.5
+                        ],
+                        [
+                            -86.5,
+                            44.5
+                        ],
+                        [
+                            -86.5,
+                            44.0
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "risk_score": 0.45,
+                "risk_label": "Moderate",
+                "confidence": "High",
+                "species": "Silver Carp",
+                "drivers": [
+                    "Moderate nutrient availability",
+                    "Distance from primary invasion front"
+                ],
+                "explanation": "While suitable habitat exists, the distance from current established populations suggests a lower immediate risk. Continued monitoring is recommended."
+            }
+        },
+        {
+            "id": "grid-103",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -87.5,
+                            43.5
+                        ],
+                        [
+                            -87.0,
+                            43.5
+                        ],
+                        [
+                            -87.0,
+                            44.0
+                        ],
+                        [
+                            -87.5,
+                            44.0
+                        ],
+                        [
+                            -87.5,
+                            43.5
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "risk_score": 0.92,
+                "risk_label": "Critical",
+                "confidence": "High",
+                "species": "Asian Carp Complex",
+                "drivers": [
+                    "Direct hydrological connection to Illinois River",
+                    "Optimal feeding conditions detected",
+                    "Recent eDNA positive signals"
+                ],
+                "explanation": "Critical risk zone. Model detects a 92% probability of detection within 6 months based on recent eDNA signals and unrestricted waterway access."
+            }
+        }
+    ]
+}

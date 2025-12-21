@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invasive Species Intelligence | v0.2 Prediction Prototype</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Layer 1: The Map -->
+    <div id="map"></div>
+
+    <!-- UI Overlay -->
+    <div class="ui-overlay">
+
+        <!-- Top Header -->
+        <header class="top-bar glass-panel">
+            <div class="app-title">
+                <h1>Invasive Species Intelligence</h1>
+                <p class="app-subtitle">AI-Enabled Prediction Prototype (v0.2)</p>
+            </div>
+            <div class="status-indicator">
+                <span style="color:var(--accent-risk-low); font-size: 0.8rem;">● System Nominal</span>
+            </div>
+        </header>
+
+
+        <div style="display: flex; gap: 1rem; height: 100%;">
+            <!-- Sidebar Controls -->
+            <aside class="sidebar glass-panel">
+
+                <!-- Section: Core Layers -->
+                <div class="panel-section">
+                    <div class="section-title">Observation Layers</div>
+                    <div class="layer-toggle-group">
+                        <label class="layer-item">
+                            <input type="checkbox" class="layer-checkbox" value="sightings" checked>
+                            <span class="layer-label">Confirmed Sightings</span>
+                        </label>
+                        <label class="layer-item">
+                            <input type="checkbox" class="layer-checkbox" value="habitat" checked>
+                            <span class="layer-label">Habitat Suitability</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Section: AI Intelligence -->
+                <div class="panel-section">
+                    <div class="section-title" style="color:var(--primary-action);">AI / Prediction Layers</div>
+                    <div class="layer-toggle-group">
+                        <label class="layer-item">
+                            <input type="checkbox" class="layer-checkbox" value="risk_overlay" checked>
+                            <span class="layer-label" style="color:var(--primary-action);">Predicted Risk Heatmap</span>
+                        </label>
+                    </div>
+
+                    <!-- Dynamic AI Briefing Card -->
+                    <div id="ai-briefing" class="insight-card">
+                        <div
+                            style="font-size:0.8rem; font-weight:600; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.5rem;">
+                            <span>🔮 Live Analysis</span>
+                        </div>
+                        <div id="prediction-content">
+                            <div class="insight-metric">
+                                <span>Focus Species</span>
+                                <span class="insight-value" id="pred-species">Loading...</span>
+                            </div>
+                            <div class="insight-metric">
+                                <span>Expansion Prob.</span>
+                                <span class="insight-value" id="pred-score">--</span>
+                            </div>
+                            <div class="insight-desc" id="pred-expl">
+                                Initializing AI inference engine...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Context (Legacy/Context) -->
+                <div class="panel-section">
+                    <div class="section-title">Contextual Vectors</div>
+                    <div class="layer-toggle-group">
+                        <label class="layer-item">
+                            <input type="checkbox" class="layer-checkbox" value="traffic">
+                            <span class="layer-label">Vessel Traffic (AIS)</span>
+                        </label>
+                        <label class="layer-item">
+                            <input type="checkbox" class="layer-checkbox" value="iuu">
+                            <span class="layer-label">Enforcement Anomalies</span>
+                        </label>
+                    </div>
+                </div>
+
+            </aside>
+        </div>
+
+        <!-- Footnote with Disclaimer -->
+        <div class="bottom-panel glass-panel">
+            <strong>DISCLAIMER</strong><br>
+            Predictions are probabilistic and based on public datasets.
+            This tool is for decision support only, not regulatory enforcement.
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Application Logic -->
+    <script src="js/app.js"></script>
+</body>
+
+</html>
