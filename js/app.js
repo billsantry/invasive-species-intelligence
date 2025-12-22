@@ -101,8 +101,15 @@ vessels.forEach(v => {
 async function loadAILayer() {
     try {
         console.log("Fetching AI Predictions from Hybrid Backend...");
-        // Use relative path for production (works if served by same backend)
-        const response = await fetch('/predict');
+        // DYNAMIC API ROUTING
+        // If on local static server (8080), point to local backend (8000). 
+        // Otherwise (Production/Backend-served), use relative path.
+        const apiUrl = window.location.port === '8080'
+            ? 'http://127.0.0.1:8000/predict'
+            : '/predict';
+
+        console.log(`Fetching AI Predictions from: ${apiUrl}`);
+        const response = await fetch(apiUrl);
 
         if (!response.ok) throw new Error("API Response Error");
 
