@@ -11,7 +11,7 @@
     --accent-risk-med: #f59e0b;
     --accent-risk-low: #10b981;
     --primary-action: #38bdf8;
-    
+
     --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     --shadow-glow: 0 0 15px rgba(56, 189, 248, 0.15);
 }
@@ -41,7 +41,8 @@ body {
 .ui-overlay {
     position: relative;
     z-index: 1000;
-    pointer-events: none; /* Let clicks pass through empty spaces */
+    pointer-events: none;
+    /* Let clicks pass through empty spaces */
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -57,7 +58,8 @@ body {
     border: 1px solid var(--border-glass);
     border-radius: 12px;
     box-shadow: var(--shadow-soft);
-    pointer-events: auto; /* Re-enable clicks */
+    pointer-events: auto;
+    /* Re-enable clicks */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -167,9 +169,10 @@ header.top-bar {
 
 .layer-checkbox:checked::before {
     transform: scale(1);
-    background-color: white; /* Important, was using box-shadow trick which fails on solid */
+    background-color: white;
+    /* Important, was using box-shadow trick which fails on solid */
     box-shadow: none;
-    background-color: var(--bg-dark); 
+    background-color: var(--bg-dark);
 }
 
 .layer-label {
@@ -239,32 +242,68 @@ header.top-bar {
     position: absolute;
     bottom: 1.5rem;
     right: 1.5rem;
-    max-width: 300px;
-    font-size: 0.75rem;
+    max-width: 350px;
+    font-size: 0.85rem;
     color: var(--text-secondary);
-    padding: 1rem;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.status-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.status-light {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #4ade80;
+    /* Green */
+    box-shadow: 0 0 10px #4ade80;
+    flex-shrink: 0;
+}
+
+.status-light.offline {
+    background: #ef4444;
+    /* Red */
+    box-shadow: 0 0 10px #ef4444;
 }
 
 /* Scrollbar */
 ::-webkit-scrollbar {
     width: 6px;
 }
+
 ::-webkit-scrollbar-track {
-    background: rgba(0,0,0,0.1); 
+    background: rgba(0, 0, 0, 0.1);
 }
+
 ::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.2); 
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 3px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255,255,255,0.3); 
+    background: rgba(255, 255, 255, 0.3);
 }
 
 /* Animations */
 @keyframes pulse-risk {
-    0% { fill-opacity: 0.4; }
-    50% { fill-opacity: 0.7; }
-    100% { fill-opacity: 0.4; }
+    0% {
+        fill-opacity: 0.4;
+    }
+
+    50% {
+        fill-opacity: 0.7;
+    }
+
+    100% {
+        fill-opacity: 0.4;
+    }
 }
 
 .risk-polygon-high {

@@ -125,6 +125,13 @@ async function loadAILayer() {
         console.error("Failed to load AI Layer:", error);
         // Fallback or Alert? 
         // Per spec: "Map still loads, Known observations still display" -> We rely on Layer 1.
+
+        // Update Status Light to Offline
+        const light = document.getElementById('status-light');
+        if (light) light.classList.add('offline');
+
+        const statusText = document.querySelector('.bottom-panel strong');
+        if (statusText) statusText.innerText = "System Status: Limited (Offline Mode)";
     }
 }
 
