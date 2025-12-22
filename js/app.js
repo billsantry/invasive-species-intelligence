@@ -101,8 +101,8 @@ vessels.forEach(v => {
 async function loadAILayer() {
     try {
         console.log("Fetching AI Predictions from Hybrid Backend...");
-        // POINT THIS TO YOUR LOCAL PYTHON API
-        const response = await fetch('http://127.0.0.1:8000/predict');
+        // Use relative path for production (works if served by same backend)
+        const response = await fetch('/predict');
 
         if (!response.ok) throw new Error("API Response Error");
 

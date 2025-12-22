@@ -18,9 +18,15 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 app = FastAPI()
 
 # Enable CORS for frontend
+origins = [
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
+    "http://localhost:3000",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8080", "http://127.0.0.1:8080"], # Explicit origins
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -193,7 +199,7 @@ async def run_inference():
         predictions = model.predict(df_features)
     else:
         # Fallback if training failed
-        predictions = [0.85, 0.45, 0.92] 
+        predictions = [0.85, 0.45, 0.92, 0.65] 
 
     for i, region in enumerate(regions):
         score = float(predictions[i])
@@ -282,6 +288,17 @@ async def get_predictions():
         regions=processed_regions
     )
 
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+import pathlib
+
+# Robust Path Resolution (Resolves relative to this file, backend/main.py)
+# BASE_DIR = invasive-species-tracker/
+BASE_DIR = pathlib.Path(__file__).parent.parent 
+
+app.mount("/css", StaticFiles(directory=BASE_DIR / "css"), name="css")
+app.mount("/js", StaticFiles(directory=BASE_DIR / "js"), name="js")
+
 @app.get("/")
-def read_root():
-    return {"status": "Invasive Species Intelligence API Active"}
+async def read_index():
+    return FileResponse(BASE_DIR / "index.html")

@@ -1,398 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Invasive Species Intelligence MVP — Preview (Fixed)</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<style>
-  html, body { padding-top:180px; }
-  body { padding-top:130px; overflow:hidden; }
-  #sidebar { height:auto; max-height:calc(100vh - 260px); overflow-y:auto; background:#f8f9fa; border-right:1px solid #ddd; }
-  #map { position:relative; height:calc(100vh - 180px); width:100%; min-height:600px; background:#eef; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invasive Species Intelligence | v0.2 Prediction Prototype</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-  <header class="p-3 bg-light border-bottom fixed-top">
-    <h1 class="h3 mb-1">Invasive Species & Maritime Intelligence Prototype</h1>
-    <h5 class="text-muted">A multi-layer analytic tool integrating invasive species data, AIS behavior, habitat forecasts, and IUU enforcement indicators.</h5>
-  </header>
 
-<!-- Fix unbalanced container divs -->
+  <!-- Full Screen Map Container -->
+  <div id="map"></div>
 
-  <!-- Unified Intelligence Narrative (Full-width top bar) -->
-<div class="container-fluid mt-4 pt-2">
-  <div id="unified-brief" class="border rounded p-3 mb-3 bg-white shadow-sm">
-    <h5 class="text-primary mb-2"><strong>📡 Maritime & Ecosystem Risk Briefing</strong></h5>
-    <div id="brief-text" class="small">Real-time cross-domain analysis loading…</div>
-  </div>
-</div>
+  <!-- UI Overlay (Glassmorphism) -->
+  <div class="ui-overlay">
 
-<div class="container-fluid" style="padding-top:90px;">
- <div class="row flex-nowrap">
-  <nav id="sidebar" class="col-12 col-md-3 col-lg-2 p-3">
-   <ul class="nav nav-tabs">
-    <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-invasive">Invasive Species</button></li>
-    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-iuu">IUU Enforcement</button></li>
-    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-modern">Data Modernization</button></li>
-    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-trade">Trade Integrity</button></li>
-    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-compet">Competitiveness</button></li>
-   </ul>
+    <!-- Header -->
+    <header class="glass-panel top-bar">
+      <div class="app-title">
+        <h1>Invasive Species Intelligence</h1>
+        <p class="app-subtitle">v0.2 | AI-Driven Ecosystem Risk & Maritime Enforcement</p>
+      </div>
+      <!-- Optional: Status Indicator -->
+      <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.75rem; color:var(--accent-risk-low);">
+        <span
+          style="width:8px; height:8px; background:var(--accent-risk-low); border-radius:50%; box-shadow:0 0 8px var(--accent-risk-low);"></span>
+        Live Model Connected
+      </div>
+    </header>
 
-   <div class="tab-content mt-3">
-    <div id="tab-invasive" class="tab-pane fade show active">
-     <h5 class="pb-2 border-bottom">Layers</h5>
-     <div class="form-check"><input class="form-check-input layer-toggle" type="checkbox" value="sightings" checked> Sightings</div>
-     <div class="form-check"><input class="form-check-input layer-toggle" type="checkbox" value="traffic" checked> Vessel Traffic</div>
-     <div class="form-check"><input class="form-check-input layer-toggle" type="checkbox" value="habitat" checked> Habitat</div>
-     <div class="form-check mb-3"><input class="form-check-input layer-toggle" type="checkbox" value="citizenscience" checked> Citizen Science</div>
+    <!-- Sidebar / Controls -->
+    <div class="glass-panel sidebar">
 
-     <h5 class="pb-2 border-bottom">Intelligence Feed</h5>
-     <div id="intel-feed" class="small" style="max-height:200px; overflow-y:auto;"></div>
+      <!-- Context Layer Controls -->
+      <div class="panel-section">
+        <div class="section-title">Data Layers</div>
+        <div class="layer-toggle-group">
+          <label class="layer-item">
+            <input type="checkbox" class="layer-checkbox" value="sightings" checked>
+            <span class="layer-label">Known Sightings (USGS/EDDMapS)</span>
+          </label>
+          <label class="layer-item">
+            <input type="checkbox" class="layer-checkbox" value="habitat" checked>
+            <span class="layer-label">Habitat Suitability (Model)</span>
+          </label>
+          <label class="layer-item">
+            <input type="checkbox" class="layer-checkbox" value="traffic">
+            <span class="layer-label">Commercial Vessel Traffic</span>
+          </label>
+        </div>
+      </div>
 
-     <div id="prediction-card" class="mt-3 p-2 border rounded bg-white shadow-sm small">
-      <h6 class="text-primary"><strong>🔮 Predictive Insight</strong></h6>
-      <div><strong>Top Threat Species:</strong> <span id="pred-species">Sea Lamprey</span></div>
-      <div><strong>Likelihood Score:</strong> <span id="pred-score">72</span>/100</div>
-      <div><strong>Days Until Arrival:</strong> <span id="pred-days">9</span></div>
-      <div><strong>Confidence:</strong> <span id="pred-confidence">81%</span></div>
-      <div class="mt-2" id="pred-expl" style="font-style:italic;">Rising water temps and migratory corridor alignment increasing threat window.</div>
-     </div>
+      <!-- Risk Analysis Card -->
+      <div class="panel-section">
+        <div class="section-title">Predictive Insight</div>
+        <div id="prediction-content" class="insight-card">
+          <div class="insight-metric">
+            <span>Top Threat Species</span>
+            <span id="pred-species" class="insight-value">Calculating...</span>
+          </div>
+          <div class="insight-metric">
+            <span>Risk Score</span>
+            <span id="pred-score" class="insight-value">--/100</span>
+          </div>
+          <div id="pred-expl" class="insight-desc">
+            Initializing environmental variables and fetching real-time model inference...
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Alerts -->
+      <div class="panel-section">
+        <div class="section-title">Intelligence Feed</div>
+        <div style="font-size:0.8rem; color:var(--text-secondary); display:flex; flex-direction:column; gap:0.5rem;">
+          <div style="padding:0.5rem; background:rgba(255,255,255,0.03); border-radius:4px;">
+            <strong style="color:var(--text-primary);">New Signal:</strong> <span style="color:#facc15;">Sea
+              Lamprey</span><br>
+            High probability match in Des Plaines vector.
+          </div>
+          <div style="padding:0.5rem; background:rgba(255,255,255,0.03); border-radius:4px;">
+            <strong style="color:var(--text-primary);">Vessel Alert:</strong> USGS-04<br>
+            Bi-directional movement in high-risk zone.
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <div id="tab-iuu" class="tab-pane fade"><div id="intel-iuu" class="small"></div></div>
-    <div id="tab-modern" class="tab-pane fade"><div id="intel-modern" class="small"></div></div>
-    <div id="tab-trade" class="tab-pane fade"><div id="intel-trade" class="small"></div></div>
-    <div id="tab-compet" class="tab-pane fade"><div id="intel-compet" class="small"></div></div>
-   </div>
-  </nav>
+    <!-- Legend / Info -->
+    <div class="glass-panel bottom-panel">
+      <strong>System Status:</strong> Hybrid Inference Active.<br>
+      Using Live USGS Water Data + Scikit-Learn Random Forest.
+    </div>
+  </div>
 
-  <main class="col p-0 d-flex"><div id="map" style="flex:1 1 auto;"></div></main>
- </div>
-</div>
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-console.log('Leaflet loaded:', typeof L !== 'undefined');
+  <!-- App Logic -->
+  <script src="js/app.js"></script>
 
-// =============================================================
-// FULLY REPAIRED, CLEAN A2 VERSION — ALL FEATURES RESTORED
-// =============================================================
+</body>
 
-window.onload = () => {
-  /* ------------------ MAP ------------------ */
-  const map = L.map('map').setView([44.5, -86.5], 6);
-  // CSP-safe tile substitute
-L.rectangle([[90,-180],[-90,180]],{
-  color:"#ccc", weight:1, fillColor:"#e6e6e6", fillOpacity:1
-}).addTo(map);
-
-
-  /* ------------------ LAYERS ------------------ */
-  const LAYERS = {};
-
-  // Habitat
-  const habitatLayer = L.layerGroup().addTo(map);
-  L.polygon([
-    [45.0,-87.2], [44.6,-86.8], [44.2,-87.0], [44.4,-87.5]
-  ],{
-    color:'green', weight:2, fillColor:'yellow', fillOpacity:0.35
-  }).bindTooltip("Great Lakes Suitability Zone – Medium Risk").addTo(habitatLayer);
-
-  // Sightings
-  const sightingsLayer = L.layerGroup().addTo(map);
-  [
-    {coords:[43.09,-89.38],label:"Bighead Carp — Yahara River, WI",color:"orange"},
-    {coords:[42.68,-89.02],label:"Silver Carp — Sugar River, WI",color:"orange"},
-    {coords:[41.51,-88.12],label:"Sea Lamprey — Des Plaines River, IL",color:"yellow"}
-  ].forEach(pt => {
-    L.circleMarker(pt.coords,{radius:6,color:'black',fillColor:pt.color,fillOpacity:0.85})
-      .bindTooltip(pt.label).addTo(sightingsLayer);
-  });
-  LAYERS.sightings = sightingsLayer;
-
-  // Static IUU markers
-  const iuuLayer = L.layerGroup().addTo(map);
-  [
-    {coords:[26.1,-97.2],label:"Gulf — Lancha Interception"},
-    {coords:[29.3,-94.7],label:"Galveston — Gear Violation"},
-    {coords:[42.0,-87.5],label:"Lake Michigan — AIS Silence Cluster"},
-    {coords:[48.5,-123.1],label:"Puget Sound — Border Incursion"},
-    {coords:[32.0,-117.3],label:"San Diego — Suspicious Vessel"}
-  ].forEach(pt => {
-    L.circleMarker(pt.coords,{radius:7,color:'purple',fillColor:'purple',fillOpacity:0.9})
-      .bindTooltip(pt.label).addTo(iuuLayer);
-  });
-  LAYERS.iuuStatic = iuuLayer;
-
-  // AIS moving vessels
-  const suspectedIUULayer = L.layerGroup().addTo(map);
-  const trails = L.layerGroup().addTo(map);
-  const boats = [
-    {lat:26.5, lon:-96.8, label:"Suspected IUU Vessel A (Gulf)"},
-    {lat:27.1, lon:-96.5, label:"Suspected IUU Vessel B (Gulf)"},
-    {lat:26.8, lon:-97.0, label:"Suspected IUU Vessel C (Gulf)"}
-  ];
-
-  const markers = boats.map(b =>
-    L.circleMarker([b.lat,b.lon],{radius:6,color:'red',fillColor:'red',fillOpacity:0.9})
-      .bindTooltip(b.label).addTo(suspectedIUULayer)
-  );
-
-  const trailLines = boats.map(() => L.polyline([], {color:'red',weight:2,opacity:0.5}).addTo(trails));
-
-  setInterval(() => {
-    markers.forEach((m,i) => {
-      boats[i].lat += (Math.random()*0.02 - 0.01);
-      boats[i].lon += (Math.random()*0.02 - 0.01);
-      m.setLatLng([boats[i].lat, boats[i].lon]);
-      trailLines[i].addLatLng([boats[i].lat, boats[i].lon]);
-    });
-  }, 1500);
-
-  LAYERS.iuuBoats = suspectedIUULayer;
-  LAYERS.iuuTrails = trails;
-
-  /* ------------------ DIMMING ------------------ */
-  function dimLayer(layer, dim){
-    if(!layer) return;
-    try{
-      layer.eachLayer(l => {
-        if(l.setStyle){ l.setStyle({opacity: dim?0.25:1, fillOpacity: dim?0.25:0.85}); }
-      });
-    }catch(e){ console.warn(e); }
-  }
-
-  /* ------------------ TOGGLES ------------------ */
-  const toggles = document.querySelectorAll('.layer-toggle');
-  toggles.forEach(tg => tg.addEventListener('change', e => {
-    const key = e.target.value;
-    const on = e.target.checked;
-
-    if(key==='sightings'){
-      if(on) map.addLayer(LAYERS.sightings); else map.removeLayer(LAYERS.sightings);
-      dimLayer(LAYERS.sightings, !on);
-    }
-    if(key==='traffic'){
-      if(on){ map.addLayer(LAYERS.iuuBoats); map.addLayer(LAYERS.iuuTrails); }
-      else { map.removeLayer(LAYERS.iuuBoats); map.removeLayer(LAYERS.iuuTrails); }
-      dimLayer(LAYERS.iuuBoats,!on);
-      dimLayer(LAYERS.iuuTrails,!on);
-    }
-    if(key==='habitat'){
-      if(on) map.addLayer(habitatLayer); else map.removeLayer(habitatLayer);
-      dimLayer(habitatLayer,!on);
-    }
-  }));
-
-  /* ------------------ FORECAST ENGINE ------------------ */
-  function generateForecast(){
-    const species = ["Sea Lamprey","Silver Carp","Bighead Carp"];
-    const s = species[Math.floor(Math.random()*species.length)];
-    const score = Math.floor(60 + Math.random()*30);
-    const days = Math.floor(5 + Math.random()*7);
-    const conf = Math.floor(70 + Math.random()*20);
-
-    document.getElementById('pred-species').textContent = s;
-    document.getElementById('pred-score').textContent = score;
-    document.getElementById('pred-days').textContent = days;
-    document.getElementById('pred-confidence').textContent = conf + "%";
-    document.getElementById('pred-expl').textContent =
-      `${s} migration patterns and seasonal conditions suggest elevated threat in ${days} days.`;
-  }
-  generateForecast();
-  setInterval(generateForecast, 20000);
-
-  /* ------------------ BRIEFING ------------------ */
-  function updateBrief(text){
-    document.getElementById('brief-text').textContent = text;
-  }
-
-  updateBrief("Integrating AIS anomalies, invasive species sightings, and habitat risk factors…");
-};
-</script>
-<script>
-/* BASE MAP */
-
-// Ensure script runs after DOM is ready
-window.addEventListener('load', () => { /* init moved */ }
-
-// Initial briefing
-updateBrief("Integrating AIS anomalies, invasive species sightings, and habitat risk factors…");
-
-
-const map = L.map('map').setView([44.5,-86.5],6);
-L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-/* --- LAYER REGISTRY --- */
-const LAYERS = {};
-
-/* Habitat polygons */
-const habitatLayer = L.layerGroup().addTo(map);
-const glPolygon = L.polygon([
-  [45.0,-87.2], [44.6,-86.8], [44.2,-87.0], [44.4,-87.5]
-],{
-  color:'green', weight:2, fillColor:'yellow', fillOpacity:0.35
-}).bindTooltip("Great Lakes Suitability Zone – Medium Risk").addTo(habitatLayer);
-
-/* Habitat toggle */
-const habitatToggle = document.querySelector("input[value='habitat']");
-habitatToggle.addEventListener('change', e => {
-  if(e.target.checked){ map.addLayer(habitatLayer);} else { map.removeLayer(habitatLayer);}  
-});
-
-/* Sightings */
-const sightingsLayer = L.layerGroup().addTo(map);
-const riverSightings = [
- {coords:[43.09,-89.38], label:"Bighead Carp — Yahara River, WI", color:"orange"},
- {coords:[42.68,-89.02], label:"Silver Carp — Sugar River, WI", color:"orange"},
- {coords:[41.51,-88.12], label:"Sea Lamprey — Des Plaines River, IL", color:"yellow"}
-];
-riverSightings.forEach(pt=>{
- L.circleMarker(pt.coords,{radius:6,color:'black',fillColor:pt.color,fillOpacity:0.85})
-  .bindTooltip(pt.label).addTo(sightingsLayer);
-});
-LAYERS.sightings = { layer: sightingsLayer, group: "invasive" };
-
-/* Static IUU markers */
-const iuuLayer = L.layerGroup().addTo(map);
-[
- {coords:[26.1,-97.2],label:"Gulf — Lancha Interception"},
- {coords:[29.3,-94.7],label:"Galveston — Gear Violation"},
- {coords:[42.0,-87.5],label:"Lake Michigan — AIS Silence Cluster"},
- {coords:[48.5,-123.1],label:"Puget Sound — Border Incursion"},
- {coords:[32.0,-117.3],label:"San Diego — Suspicious Vessel"}
-].forEach(pt=>{
- L.circleMarker(pt.coords,{ radius:7,color:'purple',fillColor:'purple',fillOpacity:0.9 })
-  .bindTooltip(pt.label)
-  .addTo(iuuLayer);
-});
-LAYERS.iuuStatic = { layer: iuuLayer, group: "iuu" };
-
-/* Moving AIS vessels */
-const suspectedIUULayer = L.layerGroup().addTo(map);
-const suspectedBoats = [
- {lat:26.5, lon:-96.8, label:"Suspected IUU Vessel A (Gulf)"},
- {lat:27.1, lon:-96.5, label:"Suspected IUU Vessel B (Gulf)"},
- {lat:26.8, lon:-97.0, label:"Suspected IUU Vessel C (Gulf)"}
-];
-
-const aisTrailsGroup = L.layerGroup().addTo(map);
-const aisTrails = suspectedBoats.map(()=> L.polyline([], {color:'red', weight:2, opacity:0.5}).addTo(aisTrailsGroup));
-const boatMarkers = suspectedBoats.map(b=>
- L.circleMarker([b.lat,b.lon],{
-   radius:6,
-   color:'red',
-   fillColor:'red',
-   fillOpacity:0.9
- }).bindTooltip(b.label).addTo(suspectedIUULayer)
-);
-
-LAYERS.iuuBoats = { layer: suspectedIUULayer, group: "iuu" };
-LAYERS.iuuTrails = { layer: aisTrailsGroup, group: "iuu" };
-
-setInterval(()=>{
- boatMarkers.forEach((marker,idx)=>{
-   const b = suspectedBoats[idx];
-   b.lat += (Math.random()*0.02 - 0.01);
-   b.lon += (Math.random()*0.02 - 0.01);
-   marker.setLatLng([b.lat,b.lon]);
-
-   const trail = aisTrails[idx];
-   trail.addLatLng([b.lat,b.lon]);
-  }); // end boatMarkers.forEach
-}, 1500); // end setInterval with 1.5s update interval
-
-// --- END RESTORATION BLOCK ---
-
-/* ======================================================
-   A2 TOGGLE SYSTEM — RESTORED/* ====================================================== */
-   ====================================================== */
-
-// Dimming helper
-function dimLayer(layer, dim){
-  if(!layer) return;
-  try {
-    layer.eachLayer(l=>{
-      if(l.setStyle){ l.setStyle({ opacity: dim?0.25:1, fillOpacity: dim?0.25:0.85 }); }
-    });
-  } catch(e){ console.warn("dimLayer: non-style layer", e); }
-}
-
-// Master toggle handler
-const toggles = document.querySelectorAll('.layer-toggle');
-// Sync initial toggle states
-setTimeout(()=>{
-  toggles.forEach(tg=>{
-    const evt = new Event('change');
-    tg.dispatchEvent(evt);
-  });
-}, 50);
-
-toggles.forEach(tg=>{
-  tg.addEventListener('change', e => {
-    const key = e.target.value;
-
-    // --- Sightings ---
-    if(key === 'sightings'){
-      if(e.target.checked) map.addLayer(LAYERS.sightings.layer);
-      else map.removeLayer(LAYERS.sightings.layer);
-      dimLayer(LAYERS.sightings.layer, !e.target.checked);
-    }
-
-    // --- Vessel Traffic (AIS Boats + Trails) ---
-    if(key === 'traffic'){
-      if(e.target.checked){
-        map.addLayer(LAYERS.iuuBoats.layer);
-        map.addLayer(LAYERS.iuuTrails.layer);
-      } else {
-        map.removeLayer(LAYERS.iuuBoats.layer);
-        map.removeLayer(LAYERS.iuuTrails.layer);
-      }
-      dimLayer(LAYERS.iuuBoats.layer, !e.target.checked);
-      dimLayer(LAYERS.iuuTrails.layer, !e.target.checked);
-    }
-
-    // --- Citizen Science ---
-    if(key === 'citizenscience'){
-      console.log("Citizen Science toggle pressed — layer pending.");
-    }
-
-    // --- Habitat ---
-    if(key === 'habitat'){
-      if(e.target.checked) map.addLayer(habitatLayer);
-      else map.removeLayer(habitatLayer);
-      dimLayer(habitatLayer, !e.target.checked);
-    }
-  });
-});
-
-/* ======================================================
-   PREDICTION ENGINE (Restored A2 Version)
-   ====================================================== */
-function generateForecast() {
-  const species = ["Sea Lamprey", "Silver Carp", "Bighead Carp"];
-  const s = species[Math.floor(Math.random() * species.length)];
-  const score = Math.floor(60 + Math.random() * 30);
-  const days = Math.floor(5 + Math.random() * 7);
-  const conf = Math.floor(70 + Math.random() * 20);
-
-  document.getElementById('pred-species').textContent = s;
-  document.getElementById('pred-score').textContent = score;
-  document.getElementById('pred-days').textContent = days;
-  document.getElementById('pred-confidence').textContent = conf + "%";
-  document.getElementById('pred-expl').textContent =
-    `${s} migration patterns and seasonal conditions suggest elevated threat in ${days} days.`;
-}
-
-// Run once at load
-generateForecast();
-
-// Auto-update every 20 seconds
-setInterval(generateForecast, 20000);
-
-}); // END DOMContentLoaded wrapper
-
-
-
+</html>
