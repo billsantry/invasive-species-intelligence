@@ -60,5 +60,4 @@ jobs:
         id: deploy-to-webapp
         with:
           app-name: 'invasive-species-intel-billsantry'
-          slot-name: 'production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
