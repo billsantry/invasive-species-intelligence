@@ -29,9 +29,8 @@
         <p class="app-subtitle">v0.2 | AI-Driven Ecosystem Risk & Maritime Enforcement</p>
       </div>
       <!-- Optional: Status Indicator -->
-      <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.75rem; color:var(--accent-risk-low);">
-        <span
-          style="width:8px; height:8px; background:var(--accent-risk-low); border-radius:50%; box-shadow:0 0 8px var(--accent-risk-low);"></span>
+      <div class="status-indicator">
+        <span class="status-dot"></span>
         Live Model Connected
       </div>
     </header>
@@ -45,7 +44,7 @@
         <div class="layer-toggle-group">
           <label class="layer-item">
             <input type="checkbox" class="layer-checkbox" value="sightings" checked>
-            <span class="layer-label">Known Sightings (USGS/EDDMapS)</span>
+            <span class="layer-label">Known Sightings (USGS/GBIF/EDDMapS)</span>
           </label>
           <label class="layer-item">
             <input type="checkbox" class="layer-checkbox" value="habitat" checked>
@@ -76,17 +75,31 @@
         </div>
       </div>
 
+      <!-- Risk Vector Analysis -->
+      <div class="panel-section">
+        <div class="section-title">Risk Vector Analysis</div>
+        <div class="insight-card vector-card">
+          <div class="vector-header">
+            <span class="vector-icon">🚢</span> Maritime Vector Significance
+          </div>
+          <div class="vector-text">
+            Commercial vessels are the primary pathway for <strong>65% of Great Lakes invasions</strong>. AIS monitoring
+            tracks potential <strong>Ballast Water</strong> discharge and <strong>Hull Fouling</strong> vectors in
+            high-risk zones.
+          </div>
+        </div>
+      </div>
+
       <!-- Recent Alerts -->
       <div class="panel-section">
         <div class="section-title">Intelligence Feed</div>
-        <div style="font-size:0.8rem; color:var(--text-secondary); display:flex; flex-direction:column; gap:0.5rem;">
-          <div style="padding:0.5rem; background:rgba(255,255,255,0.03); border-radius:4px;">
-            <strong style="color:var(--text-primary);">New Signal:</strong> <span style="color:#facc15;">Sea
-              Lamprey</span><br>
+        <div class="feed-container">
+          <div class="feed-item">
+            <strong class="feed-item-title">New Signal:</strong> <span class="signal-highlight">Sea Lamprey</span><br>
             High probability match in Des Plaines vector.
           </div>
-          <div style="padding:0.5rem; background:rgba(255,255,255,0.03); border-radius:4px;">
-            <strong style="color:var(--text-primary);">Vessel Alert:</strong> USGS-04<br>
+          <div class="feed-item">
+            <strong class="feed-item-title">Vessel Alert:</strong> USGS-04<br>
             Bi-directional movement in high-risk zone.
           </div>
         </div>
@@ -94,27 +107,58 @@
 
     </div>
 
-    <!-- Legend / Info -->
-    <div class="glass-panel bottom-panel">
+    <!-- System Status Board (Lower Right) -->
+    <div class="glass-panel bottom-panel status-board">
       <div class="status-header">
-        <div id="status-light" class="status-light"></div>
-        <strong>System Status:</strong> Hybrid Inference Active
+        <div id="status-light" class="status-dot"></div>
+        <strong class="status-title">System Status</strong>
       </div>
-      <div>
-        Using Live USGS Water Data + Scikit-Learn Random Forest.
+      <div class="status-details">
+        <div class="status-row">
+          <div class="status-row-wrap">
+            <div id="dot-maritime" class="status-row-dot"></div>
+            <span>Maritime:</span>
+          </div>
+          <a href="https://www.marinetraffic.com/" target="_blank" rel="noopener" class="status-primary-text">AIS-Sim
+            Underway</a>
+        </div>
+        <div class="status-row">
+          <div class="status-row-wrap">
+            <div id="dot-us" class="status-row-dot"></div>
+            <span>US Data:</span>
+          </div>
+          <a href="https://waterdata.usgs.gov/nwis" target="_blank" rel="noopener" class="status-primary-text">USGS IV /
+            BISON</a>
+        </div>
+        <div class="status-row">
+          <div class="status-row-wrap">
+            <div id="dot-canada" class="status-row-dot"></div>
+            <span>Canada Data:</span>
+          </div>
+          <a href="https://wateroffice.ec.gc.ca/" target="_blank" rel="noopener" class="status-primary-text">WSC / MSC /
+            DFO</a>
+        </div>
+        <div class="status-row">
+          <div class="status-row-wrap">
+            <div id="dot-gbif" class="status-row-dot"></div>
+            <span>Integrity:</span>
+          </div>
+          <a href="https://www.gbif.org/" target="_blank" rel="noopener" class="status-primary-text">GBIF Cross-Ref</a>
+        </div>
       </div>
       <div class="credits">
-        Created by <a href="https://billsantry.com" target="_blank" rel="noopener">billsantry</a> using <a
-          href="https://antigravity.dev" target="_blank" rel="noopener">Google AntiGravity</a>
+        Built with <a href="https://antigravity.dev" target="_blank" rel="noopener">Google AntiGravity</a>
       </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  </div>
 
-    <!-- App Logic -->
-    <script src="js/app.js"></script>
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- App Logic -->
+  <script src="js/app.js"></script>
 
 </body>
 

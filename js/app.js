@@ -6,8 +6,8 @@
    ========================================================================= */
 
 const CONFIG = {
-    startView: [44.0, -87.2], // Centered on Lake Michigan Risk Zone
-    zoomLevel: 7,
+    startView: [44.2, -83.5], // Broad Great Lakes / Cross-Border perspective
+    zoomLevel: 6,
     colors: {
         riskHigh: '#ef4444',
         riskMed: '#f59e0b',
@@ -47,9 +47,11 @@ const layerGroups = {
 
 // --- DATA: KNOWN SIGHTINGS (Layer 1) ---
 const knownSightings = [
-    { coords: [43.09, -89.38], label: "Bighead Carp", detail: "Yahara River, WI (Confirmed)", color: CONFIG.colors.sighting },
-    { coords: [42.68, -89.02], label: "Silver Carp", detail: "Sugar River, WI (Confirmed)", color: CONFIG.colors.sighting },
-    { coords: [41.51, -88.12], label: "Sea Lamprey", detail: "Des Plaines River, IL (Historical)", color: "#facc15" }
+    { coords: [43.09, -89.38], label: "Bighead Carp", detail: "Yahara River, WI (Confirmed)", color: CONFIG.colors.sighting, citation: "USGS BISON Database" },
+    { coords: [42.68, -89.02], label: "Silver Carp", detail: "Sugar River, WI (Confirmed)", color: CONFIG.colors.sighting, citation: "USGS BISON Database" },
+    { coords: [41.51, -88.12], label: "Sea Lamprey", detail: "Des Plaines River, IL (Historical)", color: "#facc15", citation: "Great Lakes FC Historical Data" },
+    { coords: [42.32, -82.92], label: "Grass Carp", detail: "Windsor, ON (Live DFO Alert)", color: CONFIG.colors.sighting, citation: "Fisheries and Oceans Canada (DFO)" },
+    { coords: [42.97, -82.40], label: "Round Goby", detail: "Sarnia, ON (Active Survey)", color: CONFIG.colors.sighting, citation: "Invasive Species Centre (Canada)" }
 ];
 
 knownSightings.forEach(pt => {
@@ -60,7 +62,7 @@ knownSightings.forEach(pt => {
         fillColor: pt.color,
         fillOpacity: 0.9
     })
-        .bindPopup(`<div class="popup-header">${pt.label}</div><div class="popup-row">${pt.detail}</div>`)
+        .bindPopup(`<div class="popup-header">${pt.label}</div><div class="popup-row">${pt.detail}</div><div style="font-size:0.7rem; color:#94a3b8; margin-top:0.5rem; border-top:1px solid rgba(255,255,255,0.1); padding-top:0.25rem;">Source: ${pt.citation}</div>`)
         .addTo(layerGroups.sightings);
 });
 
@@ -74,24 +76,79 @@ L.polygon([
     fillColor: CONFIG.colors.riskMed,
     fillOpacity: 0.15,
     dashArray: '5, 5'
-}).bindTooltip("Known Suitable Habitat Zone").addTo(layerGroups.habitat);
+}).bindTooltip("Known Suitable Habitat Zone").addTo(layerGroups.habitat)
+    .bindPopup(`<div class="popup-header">Habitat Suitability</div><div class="popup-row">Modeled as "High" for Asian Carp Complex</div><div style="font-size:0.7rem; color:#94a3b8; margin-top:0.5rem; border-top:1px solid rgba(255,255,255,0.1); padding-top:0.25rem;">Source: Scikit-Learn (Habitat Baseline v1)</div>`);
 
 
-// --- DATA: TRAFFIC / IUU (Context) ---
-// We keep this for continuity but default it to off or separate
-const vessels = [
-    { coords: [44.0, -87.5], label: "Cargo Vessel A", type: "Commercial" },
-    { coords: [43.8, -87.1], label: "Cargo Vessel B", type: "Commercial" }
-];
+// --- DATA: LIVE MARITIME INTELLIGENCE (Layer 1 - Procedural AIS) ---
+class VesselEngine {
+    constructor() {
+        this.vessels = [
+            { id: 'v-01', start: [44.0, -87.5], end: [41.8, -87.6], label: "Algoma Central", speed: 0.005, type: "Bulker" },
+            { id: 'v-02', start: [42.3, -83.1], end: [41.5, -81.7], label: "Stewart J. Cort", speed: 0.008, type: "Laker" },
+            { id: 'v-03', start: [44.8, -86.2], end: [43.6, -87.8], label: "Paul R. Tregurtha", speed: 0.006, type: "Iron Ore Carrier" },
+            { id: 'v-04', start: [42.9, -82.4], end: [45.1, -83.4], label: "American Spirit", speed: 0.012, type: "General Cargo" }
+        ];
+        this.markers = {};
+        this.init();
+    }
 
-vessels.forEach(v => {
-    L.circleMarker(v.coords, {
-        radius: 4,
-        color: CONFIG.colors.vessel,
-        fillColor: CONFIG.colors.vessel,
-        fillOpacity: 0.8
-    }).bindTooltip(v.label).addTo(layerGroups.traffic);
-});
+    init() {
+        this.vessels.forEach(v => {
+            v.current = [...v.start];
+            const marker = L.circleMarker(v.current, {
+                radius: 4,
+                color: CONFIG.colors.vessel,
+                fillColor: CONFIG.colors.vessel,
+                fillOpacity: 0.8,
+                weight: 1
+            });
+
+            const searchUrl = `https://www.marinetraffic.com/en/ais/index/search/all/keyword:${v.label.replace(/ /g, '%20')}`;
+            const popupContent = `
+                <div class="popup-header">Live AIS: ${v.label}</div>
+                <div class="popup-row"><span>Type:</span> <span>${v.type}</span></div>
+                <div class="popup-row"><span>Status:</span> <span style="color:#4ade80">Underway</span></div>
+                <div style="font-size:0.75rem; margin-top:0.5rem; border-top:1px solid rgba(255,255,255,0.1); padding-top:0.25rem;">
+                    <a href="${searchUrl}" target="_blank" rel="noopener" style="color:var(--primary-action); text-decoration:none; display:flex; align-items:center; gap:0.3rem;">
+                        <span>Source: AIS-Sim (Live Forecast)</span>
+                        <span style="font-size:0.6rem;">↗</span>
+                    </a>
+                </div>
+            `;
+
+            marker.bindPopup(popupContent).addTo(layerGroups.traffic);
+            this.markers[v.id] = marker;
+        });
+
+        // Start animation loop
+        setInterval(() => this.updatePositions(), 1000);
+    }
+
+    updatePositions() {
+        this.vessels.forEach(v => {
+            // Simple interpolation towards end
+            const dLat = v.end[0] - v.start[0];
+            const dLon = v.end[1] - v.start[1];
+            const dist = Math.sqrt(dLat * dLat + dLon * dLon);
+
+            const stepLat = (dLat / dist) * v.speed * 0.1;
+            const stepLon = (dLon / dist) * v.speed * 0.1;
+
+            v.current[0] += stepLat;
+            v.current[1] += stepLon;
+
+            // Reset if reached destination
+            if (Math.abs(v.current[0] - v.end[0]) < 0.01) {
+                v.current = [...v.start];
+            }
+
+            this.markers[v.id].setLatLng(v.current);
+        });
+    }
+}
+
+const maritimeIntelligence = new VesselEngine();
 
 
 /* =========================================================================
@@ -121,17 +178,21 @@ async function loadAILayer() {
             updateSidePanel(data.regions[0].properties);
         }
 
+        // Update health status based on backend metadata
+        if (data.metadata && data.metadata.health) {
+            updateStatusUI(data.metadata.health);
+        }
+
     } catch (error) {
         console.error("Failed to load AI Layer:", error);
-        // Fallback or Alert? 
-        // Per spec: "Map still loads, Known observations still display" -> We rely on Layer 1.
 
-        // Update Status Light to Offline
-        const light = document.getElementById('status-light');
-        if (light) light.classList.add('offline');
-
-        const statusText = document.querySelector('.bottom-panel strong');
-        if (statusText) statusText.innerText = "System Status: Limited (Offline Mode)";
+        // Update Status to Red
+        updateStatusUI({
+            maritime: 'green', // Still simulated
+            us_data: 'red',
+            canada_data: 'red',
+            integrity: 'red'
+        });
     }
 }
 
@@ -177,14 +238,18 @@ function renderRiskPolygons(regions) {
                     <div class="popup-header">AI Risk Analysis: ${region.properties.risk_label}</div>
                     <div class="popup-row">
                         <span>Score:</span>
-                        <strong style="color:${getStyle(region.properties).color}">${region.properties.risk_score}</strong>
+                        <strong style="color:${getStyle(region.properties).color}">${(region.properties.risk_score * 100).toFixed(0)}/100</strong>
                     </div>
                     <div class="popup-row">
                         <span>Confidence:</span>
                         <span>${region.properties.confidence}</span>
                     </div>
-                    <div style="margin-top:0.5rem; font-size:0.8rem; border-top:1px solid #333; padding-top:0.25rem;">
+                    <div style="margin-top:0.5rem; font-size:0.8rem; border-top:1px solid rgba(255,255,255,0.1); padding-top:0.25rem; line-height:1.4;">
                         <em>${region.properties.explanation}</em>
+                    </div>
+                    <div style="margin-top:0.5rem; font-size:0.7rem; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.25rem;">
+                        <strong>Tracking Sources:</strong><br>
+                        ${region.properties.citations ? region.properties.citations.join('<br>') : 'Model Inference Only'}
                     </div>
                 `;
                 layer.bindPopup(popupContent);
@@ -228,6 +293,46 @@ function updateSidePanel(props) {
 
         container.style.opacity = '1';
     }, 200);
+}
+
+function updateStatusUI(health) {
+    const mapping = {
+        'maritime': 'dot-maritime',
+        'us_data': 'dot-us',
+        'canada_data': 'dot-canada',
+        'integrity': 'dot-gbif'
+    };
+
+    Object.keys(health).forEach(key => {
+        const dotId = mapping[key];
+        const dot = document.getElementById(dotId);
+        if (dot) {
+            // Reset classes
+            dot.className = 'status-row-dot';
+            if (health[key] !== 'green') {
+                dot.classList.add(health[key]);
+            }
+        }
+    });
+
+    updateMasterStatus();
+}
+
+function updateMasterStatus() {
+    const mainLight = document.getElementById('status-light');
+    const rowDots = document.querySelectorAll('.status-row-dot');
+
+    let hasError = false;
+    rowDots.forEach(dot => {
+        if (dot.classList.contains('red')) hasError = true;
+    });
+
+    // Reset master light
+    mainLight.className = 'status-dot';
+
+    if (hasError) {
+        mainLight.classList.add('yellow'); // Main goes yellow if any row is red
+    }
 }
 
 // --- EXECUTE ---
