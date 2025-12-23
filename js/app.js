@@ -343,6 +343,7 @@ loadAILayer();
    4. INTERACTIVITY & TOGGLES
    ========================================================================= */
 
+// Layer Toggles
 document.querySelectorAll('.layer-checkbox').forEach(box => {
     box.addEventListener('change', (e) => {
         const layerName = e.target.value;
@@ -358,4 +359,85 @@ document.querySelectorAll('.layer-checkbox').forEach(box => {
     });
 });
 
+// UI Collapsible Logic
+function setupUIInteractivity() {
+    // 1. Sidebar Toggle
+    const sidebar = document.getElementById('main-sidebar');
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const sidebarIcon = sidebarToggle.querySelector('polyline');
+
+    // 2. Status Board Toggle
+    const statusBoard = document.getElementById('status-board');
+    const statusToggle = document.getElementById('status-toggle');
+    const statusIcon = statusToggle.querySelector('polyline');
+
+    const togglePanel = (panel, icon, forceCollapse) => {
+        const isCollapsed = forceCollapse !== undefined ? forceCollapse : !panel.classList.contains('collapsed');
+
+        if (isCollapsed) {
+            panel.classList.add('collapsed');
+            icon.setAttribute('points', '6 9 12 15 18 9'); // Chevron Down
+        } else {
+            panel.classList.remove('collapsed');
+            icon.setAttribute('points', '18 15 12 9 6 15'); // Chevron Up
+        }
+    };
+
+    sidebarToggle.addEventListener('click', () => togglePanel(sidebar, sidebarIcon));
+    statusToggle.addEventListener('click', () => togglePanel(statusBoard, statusIcon));
+
+    // Auto-collapse logic: collapsed on small vertical viewports or mobile-width
+    const handleResize = () => {
+        const isSmallScreen = window.innerWidth <= 768 || window.innerHeight <= 700;
+
+        if (isSmallScreen) {
+            if (!sidebar.classList.contains('collapsed')) togglePanel(sidebar, sidebarIcon, true);
+            if (!statusBoard.classList.contains('collapsed')) togglePanel(statusBoard, statusIcon, true);
+        } else {
+            if (sidebar.classList.contains('collapsed')) togglePanel(sidebar, sidebarIcon, false);
+            if (statusBoard.classList.contains('collapsed')) togglePanel(statusBoard, statusIcon, false);
+        }
+    };
+
+    // Initialize
+    handleResize();
+    window.addEventListener('resize', handleResize);
+}
+
+// Master status logic update
+function updateMasterStatus() {
+    const masterLight = document.getElementById('master-status-light');
+    const rowDots = document.querySelectorAll('.status-row-dot');
+
+    let hasError = false;
+    let hasWarning = false;
+
+    rowDots.forEach(dot => {
+        if (dot.classList.contains('red')) hasError = true;
+        if (dot.classList.contains('yellow')) hasWarning = true;
+    });
+
+    // Reset master light
+    if (masterLight) {
+        masterLight.className = 'status-dot';
+        if (hasError) {
+            masterLight.classList.add('red');
+        } else if (hasWarning) {
+            masterLight.classList.add('yellow');
+        } else {
+            masterLight.classList.add('active'); // Pulse green
+        }
+    }
+}
+
+// Ensure master status is updated after AI data loads
+const originalUpdateStatusUI = updateStatusUI;
+updateStatusUI = function (health) {
+    originalUpdateStatusUI(health);
+    updateMasterStatus();
+};
+
+setupUIInteractivity();
+
 console.log("System Initialized: Invasive Species Intelligence v0.2");
+
