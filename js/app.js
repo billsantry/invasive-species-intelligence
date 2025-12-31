@@ -1,4 +1,4 @@
-// Invasive Species Intelligence Tool v0.2
+// Invasive Species Intelligence Tool v0.3
 // Application Logic
 
 /* =========================================================================
@@ -161,7 +161,7 @@ async function loadAILayer() {
         // DYNAMIC API ROUTING
         // If on local static server (8080), point to local backend (8000). 
         // Otherwise (Production/Backend-served), use relative path.
-        const apiUrl = window.location.port === '8080'
+        const apiUrl = (window.location.port === '8080' || window.location.protocol === 'file:')
             ? 'http://127.0.0.1:8000/predict'
             : '/predict';
 
@@ -417,15 +417,20 @@ function updateMasterStatus() {
         if (dot.classList.contains('yellow')) hasWarning = true;
     });
 
-    // Reset master light
+    // Update Text and Light
     if (masterLight) {
+        const statusText = document.getElementById('status-text');
         masterLight.className = 'status-dot';
+
         if (hasError) {
             masterLight.classList.add('red');
+            if (statusText) statusText.innerText = 'System Offline';
         } else if (hasWarning) {
             masterLight.classList.add('yellow');
+            if (statusText) statusText.innerText = 'Syncing Data...';
         } else {
             masterLight.classList.add('active'); // Pulse green
+            if (statusText) statusText.innerText = 'Live Model Connected';
         }
     }
 }
@@ -439,5 +444,5 @@ updateStatusUI = function (health) {
 
 setupUIInteractivity();
 
-console.log("System Initialized: Invasive Species Intelligence v0.2");
+console.log("System Initialized: Invasive Species Intelligence v0.3");
 

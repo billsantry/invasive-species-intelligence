@@ -1,6 +1,12 @@
 /* Font Import */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 :root {
     --bg-dark: #0f172a;
     --bg-glass: rgba(15, 23, 42, 0.85);
@@ -592,7 +598,7 @@ header.top-bar {
 
     .sidebar,
     .status-board {
-        position: absolute !important;
+        position: fixed !important;
         bottom: 0.75rem !important;
         width: calc(50% - 1.15rem) !important;
         max-height: calc(100vh - 120px) !important;
