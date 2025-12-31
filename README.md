@@ -1,13 +1,13 @@
-# Invasive Species Intelligence (v0.2)
+# Invasive Species Intelligence (v0.5)
 
-**Status:** Prototype (v0.2.1-hybrid)  
+**Status:** Beta (v0.5-glfc-integrated)  
 **Live Demo:** Localhost only (Requires API Keys)  
 **Author:** billsantry (Built with Google Antigravity)
 
-![Status Nominal](https://img.shields.io/badge/Status-Nominal-success) ![AI Model](https://img.shields.io/badge/AI-Hybrid%20Architecture-blueviolet)
+![Status Nominal](https://img.shields.io/badge/Status-Nominal-success) ![AI Model](https://img.shields.io/badge/AI-Hybrid%20Architecture-blueviolet) ![GLFC](https://img.shields.io/badge/Data-GLFC%20Integrated-blue)
 
 ## 🌊 Mission
-Protecting the Great Lakes from the economic and ecological threat of invasive carp. This tool aggregates cross-border data (USGS/DFO), utilizing AI to predict migration fronts and identify high-risk breaches before they become irreversible.
+Protecting the Great Lakes from the economic and ecological threat of invasive carp and sea lamprey. This tool aggregates cross-border data (USGS/DFO) and GLFC infrastructure status, utilizing AI to predict migration fronts and identify high-risk breaches before they become irreversible.
 
 It serves as a **Decision Support System** for environmental analysts, translating raw hydrological data into actionable, explained risk intelligence.
 
@@ -16,18 +16,19 @@ This project uses a unique hybrid predictive engine to ensure stability and expl
 
 1.  **The "Quant" Brain (Python/Scikit-Learn)**
     *   **Role:** Hard Math & Physics.
-    *   **Function:** Ingests live environmental data (Flow Velocity, Temp, Dissolved Oxygen) and runs it through a robust **Random Forest Regressor** to calculate a raw Risk Score (0-100).
-    *   **Source:** Synthetic training data based on biological suitability profiles + Live USGS API inputs.
+    *   **Function:** Ingests live environmental data (Flow Velocity, Temp) and **GLFC Infrastructure Status** (Barrier functionality) to calculate a raw Risk Score (0-100).
+    *   **Source:** Live USGS/WSC/GBIF API inputs + GLFC Local Data.
 2.  **The "Analyst" Brain (OpenAI GPT-4)**
     *   **Role:** Context & Explanation.
     *   **Function:** Takes the raw score and factor data to generate a professional, plain-language risk assessment.
     *   **Constraint:** Explicitly cited to prevent hallucination.
 
-## 🚀 Key Features
-*   **Live USGS Integration**: Fetches real-time Discharge (cfs) and Water Temperature (°C) from USGS Site 05532500 (Des Plaines River) to inform the risk model.
-*   **Cross-Border Data**: Includes Canadian tracking data sources (DFO/Invasive Species Centre) for Detroit River corridors.
-*   **Bio-Hydrological Logic**: Model penalizes risk for high-velocity currents (barriers to upstream migration) and hypoxia (low oxygen).
-*   **Provenance**: Every prediction includes a "Tracking Sources" citation list to ensure data integrity.
+## 🚀 Key Features (v0.5)
+*   **Intelligence Feed**: A prioritized, always-open feed of critical insights and "Signal" alerts, with hyperlinks to jump directly to high-risk grid cells.
+*   **GLFC Infrastructure Integration**: Ingests and displays 7,900+ sea lamprey barriers, treatments, and trapping operations.
+*   **Smart Risk Logic**: The AI model now accounts for barrier proximity and functional status (e.g., non-functional barriers increase local risk).
+*   **Live Cross-Border Data**: Fuses USGS (US) and WSC (Canada) hydrological data for a complete Great Lakes view.
+*   **Interactive Sidebar**: Stacked data layer controls with "Focus Mode" defaults.
 *   **Glassmorphic UI**: Premium, dark-mode visualization optimized for situational awareness.
 
 ## 🛠️ Installation & Setup

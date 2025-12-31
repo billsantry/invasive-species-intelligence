@@ -1,0 +1,680 @@
+[
+  {
+    "lat": 46.4675,
+    "lon": -84.8724,
+    "sname": "Grants Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10014.pdf"
+  },
+  {
+    "lat": 46.478,
+    "lon": -84.999,
+    "sname": "Ankodosh Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10018.pdf"
+  },
+  {
+    "lat": 46.4792,
+    "lon": -85.0131,
+    "sname": "Roxbury Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10019.pdf"
+  },
+  {
+    "lat": 46.5224,
+    "lon": -85.0562,
+    "sname": "Galloway Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10021.pdf"
+  },
+  {
+    "lat": 46.555,
+    "lon": -85.0294,
+    "sname": "Tahquamenon River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10022.pdf"
+  },
+  {
+    "lat": 46.6753,
+    "lon": -85.0278,
+    "sname": "Betsy River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10027.pdf"
+  },
+  {
+    "lat": 46.6699,
+    "lon": -85.9737,
+    "sname": "Carpenter Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10074.pdf"
+  },
+  {
+    "lat": 46.6555,
+    "lon": -86.185,
+    "sname": "Sullivans Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10078.pdf"
+  },
+  {
+    "lat": 46.5772,
+    "lon": -86.3506,
+    "sname": "Beaver Lake Creek (Alger)",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10090.pdf"
+  },
+  {
+    "lat": 46.4966,
+    "lon": -87.1067,
+    "sname": "Sand River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10124.pdf"
+  },
+  {
+    "lat": 46.5012,
+    "lon": -87.3524,
+    "sname": "Chocolay River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10126.pdf"
+  },
+  {
+    "lat": 46.6359,
+    "lon": -87.4681,
+    "sname": "Harlow Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10155.pdf"
+  },
+  {
+    "lat": 46.7146,
+    "lon": -87.5626,
+    "sname": "Garlic River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10157.pdf"
+  },
+  {
+    "lat": 46.8901,
+    "lon": -87.8688,
+    "sname": "Pine River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10160.pdf"
+  },
+  {
+    "lat": 46.909532,
+    "lon": -88.035797,
+    "sname": "Huron River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10181.pdf"
+  },
+  {
+    "lat": 46.8409,
+    "lon": -88.2527,
+    "sname": "Ravine River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10188.pdf"
+  },
+  {
+    "lat": 46.8202,
+    "lon": -88.2886,
+    "sname": "Silver River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10190.pdf"
+  },
+  {
+    "lat": 46.7562,
+    "lon": -88.4573,
+    "sname": "Falls River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10194.pdf"
+  },
+  {
+    "lat": 46.835,
+    "lon": -88.4819,
+    "sname": "Little Carp River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10197.pdf"
+  },
+  {
+    "lat": 47.035,
+    "lon": -88.4878,
+    "sname": "Sturgeon River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10200.pdf"
+  },
+  {
+    "lat": 47.1929,
+    "lon": -88.3961,
+    "sname": "Trap Rock River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10222.pdf"
+  },
+  {
+    "lat": 47.1894,
+    "lon": -88.2361,
+    "sname": "Traverse River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10226.pdf"
+  },
+  {
+    "lat": 47.3441,
+    "lon": -88.4521,
+    "sname": "Gratiot River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10248.pdf"
+  },
+  {
+    "lat": 47.1147,
+    "lon": -88.8464,
+    "sname": "Graveraet River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10280.pdf"
+  },
+  {
+    "lat": 46.9993,
+    "lon": -88.9804,
+    "sname": "Misery River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10284.pdf"
+  },
+  {
+    "lat": 46.9347,
+    "lon": -89.1965,
+    "sname": "Firesteel River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10289.pdf"
+  },
+  {
+    "lat": 46.8764,
+    "lon": -89.3268,
+    "sname": "Ontonagon River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10295.pdf"
+  },
+  {
+    "lat": 46.5877,
+    "lon": -90.9441,
+    "sname": "Fish Creek (Eileen Twp.)",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10634.pdf"
+  },
+  {
+    "lat": 46.5816,
+    "lon": -90.5418,
+    "sname": "Red Cliff Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10648.pdf"
+  },
+  {
+    "lat": 46.7476,
+    "lon": -91.6119,
+    "sname": "Brule River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10679.pdf"
+  },
+  {
+    "lat": 46.6938,
+    "lon": -91.7962,
+    "sname": "Poplar River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10701.pdf"
+  },
+  {
+    "lat": 46.692,
+    "lon": -91.8578,
+    "sname": "Amnicon River",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10707.pdf"
+  },
+  {
+    "lat": 45.8377,
+    "lon": -86.6672,
+    "sname": "Sturgeon River",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10093.pdf"
+  },
+  {
+    "lat": 45.9124,
+    "lon": -86.9455,
+    "sname": "Whitefish River",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10119.pdf"
+  },
+  {
+    "lat": 45.9174,
+    "lon": -86.9618,
+    "sname": "Rapid River",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10130.pdf"
+  },
+  {
+    "lat": 45.8947,
+    "lon": -86.9795,
+    "sname": "Days River",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10137.pdf"
+  },
+  {
+    "lat": 45.5728,
+    "lon": -87.2429,
+    "sname": "Bark River",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10156.pdf"
+  },
+  {
+    "lat": 45.255,
+    "lon": -87.4817,
+    "sname": "Bailey Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10185.pdf"
+  },
+  {
+    "lat": 45.2267,
+    "lon": -87.5101,
+    "sname": "Beattie Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10186.pdf"
+  },
+  {
+    "lat": 44.973,
+    "lon": -87.6544,
+    "sname": "Peshtigo River",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10200.pdf"
+  },
+  {
+    "lat": 44.895,
+    "lon": -87.8289,
+    "sname": "Oconto River",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10216.pdf"
+  },
+  {
+    "lat": 45.2161,
+    "lon": -85.0198,
+    "sname": "Boyne River",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10458.pdf"
+  },
+  {
+    "lat": 45.156,
+    "lon": -85.1336,
+    "sname": "Jordan River",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10467.pdf"
+  },
+  {
+    "lat": 42.665559,
+    "lon": -79.062761,
+    "sname": "Big Sister Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/4_10020.pdf"
+  },
+  {
+    "lat": 42.4775,
+    "lon": -79.3675,
+    "sname": "Canadaway Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/4_10037.pdf"
+  },
+  {
+    "lat": 44.7649,
+    "lon": -85.6124,
+    "sname": "Boardman River",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10501.pdf"
+  },
+  {
+    "lat": 43.2278,
+    "lon": -86.3402,
+    "sname": "Muskegon River",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10613.pdf"
+  },
+  {
+    "lat": 42.1142,
+    "lon": -86.4883,
+    "sname": "Hickory Cr (St. Joseph River)",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10707.pdf"
+  },
+  {
+    "lat": 41.6325,
+    "lon": -87.1762,
+    "sname": "Burns Ditch",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10747.pdf"
+  },
+  {
+    "lat": 46.0524,
+    "lon": -84.0265,
+    "sname": "Carlton Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/3_10044.pdf"
+  },
+  {
+    "lat": 45.9699,
+    "lon": -84.0764,
+    "sname": "Albany Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/3_10069.pdf"
+  },
+  {
+    "lat": 45.9788,
+    "lon": -84.1041,
+    "sname": "Trout Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/3_10071.pdf"
+  },
+  {
+    "lat": 46.0043,
+    "lon": -84.4144,
+    "sname": "Hessel Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/3_10080.pdf"
+  },
+  {
+    "lat": 46.0526,
+    "lon": -84.6561,
+    "sname": "Pine River",
+    "link": "http://www.glfc.org/pressrel/treatments/3_10089.pdf"
+  },
+  {
+    "lat": 46.0517,
+    "lon": -84.6618,
+    "sname": "McCloud Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/3_10094.pdf"
+  },
+  {
+    "lat": 45.5396,
+    "lon": -84.1305,
+    "sname": "Black Mallard River",
+    "link": "http://www.glfc.org/pressrel/treatments/3_10199.pdf"
+  },
+  {
+    "lat": 44.8161,
+    "lon": -83.2992,
+    "sname": "Black River",
+    "link": "http://www.glfc.org/pressrel/treatments/3_10243.pdf"
+  },
+  {
+    "lat": 44.4064,
+    "lon": -83.3174,
+    "sname": "Au Sable River",
+    "link": "http://www.glfc.org/pressrel/treatments/3_10255.pdf"
+  },
+  {
+    "lat": 44.2586,
+    "lon": -83.5261,
+    "sname": "Tawas Lake Outlet",
+    "link": "http://www.glfc.org/pressrel/treatments/3_10271.pdf"
+  },
+  {
+    "lat": 41.9903,
+    "lon": -80.4828,
+    "sname": "Racoon Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/4_10140.pdf"
+  },
+  {
+    "lat": 41.9726,
+    "lon": -80.5478,
+    "sname": "Conneaut Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/4_10153.pdf"
+  },
+  {
+    "lat": 44.25,
+    "lon": -86.3444,
+    "sname": "Little Manistee River",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10534.pdf"
+  },
+  {
+    "lat": 43.6476,
+    "lon": -83.8505,
+    "sname": "Saginaw River",
+    "link": "http://www.glfc.org/pressrel/treatments/3_10329.pdf"
+  },
+  {
+    "lat": 42.6767,
+    "lon": -86.2153,
+    "sname": "Rabbit Cr (Kalamazoo R)",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10675.pdf"
+  },
+  {
+    "lat": 42.4016,
+    "lon": -86.287,
+    "sname": "Lacota Cr (Black River)",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10691.pdf"
+  },
+  {
+    "lat": 42.8782,
+    "lon": -78.8879,
+    "sname": "Cayuga Creek (Buffalo River)",
+    "link": "http://www.glfc.org/pressrel/treatments/4_10001.pdf"
+  },
+  {
+    "lat": 42.594716,
+    "lon": -82.776049,
+    "sname": "Paint Cr (Clinton River)",
+    "link": "http://www.glfc.org/pressrel/treatments/4_10529.pdf"
+  },
+  {
+    "lat": 46.2067,
+    "lon": -84.2494,
+    "sname": "Taylor Cr (Munuscong River)",
+    "link": "http://www.glfc.org/pressrel/treatments/3_10033.pdf"
+  },
+  {
+    "lat": 46.8182,
+    "lon": -84.4215,
+    "sname": "Haviland Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 44.1028,
+    "lon": -77.5742,
+    "sname": "Trent River(Canal System)",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 44.0258,
+    "lon": -77.7168,
+    "sname": "Proctor Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 43.896,
+    "lon": -78.5963,
+    "sname": "Wilmot Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 44.0,
+    "lon": -77.8318,
+    "sname": "Salem Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 43.7948,
+    "lon": -79.1152,
+    "sname": "Rouge River",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 43.8165,
+    "lon": -79.035,
+    "sname": "Duffins Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 43.8453,
+    "lon": -78.9526,
+    "sname": "Lynde Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 43.8654,
+    "lon": -78.8224,
+    "sname": "Oshawa Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 43.869,
+    "lon": -78.8037,
+    "sname": "Farewell Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 43.5367,
+    "lon": -76.2248,
+    "sname": "Snake Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 43.513,
+    "lon": -76.324,
+    "sname": "Catfish Cr.",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 43.3438,
+    "lon": -76.699,
+    "sname": "Sterling Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 43.3097,
+    "lon": -76.7966,
+    "sname": "Red Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 43.2168,
+    "lon": -76.9265,
+    "sname": "Sodus Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 43.9941,
+    "lon": -76.0638,
+    "sname": "Black R.",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 42.3189,
+    "lon": -82.4539,
+    "sname": "Thames R.",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 45.7734,
+    "lon": -80.5018,
+    "sname": "Magnetawan River",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 45.6266,
+    "lon": -82.1971,
+    "sname": "Hughson Cr.",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 45.592,
+    "lon": -82.0925,
+    "sname": "Blue Jay Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 45.8624,
+    "lon": -83.3404,
+    "sname": "Sand Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 45.6671,
+    "lon": -82.2691,
+    "sname": "Mindemoya River",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 46.1864,
+    "lon": -82.2993,
+    "sname": "Spanish R.",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 46.2021,
+    "lon": -84.0742,
+    "sname": "Twotree R.",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 46.1507,
+    "lon": -83.8927,
+    "sname": "Watson Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 46.1543,
+    "lon": -83.8288,
+    "sname": "Koshkawong R.",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 45.6365,
+    "lon": -82.2169,
+    "sname": "Timber Bay Cr.",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 46.5292,
+    "lon": -84.1604,
+    "sname": "Garden River",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 48.6224,
+    "lon": -88.6139,
+    "sname": "Pearl R.",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 48.8788,
+    "lon": -87.5585,
+    "sname": "Pays Plat River",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 48.9274,
+    "lon": -87.8667,
+    "sname": "Cypress R.",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 48.8172,
+    "lon": -88.486,
+    "sname": "Wolf River",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 44.6076,
+    "lon": -80.5891,
+    "sname": "Bighead R.",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 46.2085,
+    "lon": -82.6322,
+    "sname": "Unnamed",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 48.947632,
+    "lon": -88.258172,
+    "sname": "Big Trout Cr.",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 46.183259,
+    "lon": -82.811445,
+    "sname": "Lauzon R.",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 43.4131,
+    "lon": -76.623,
+    "sname": "Eight Mile Cr.",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 45.9652,
+    "lon": -86.1166,
+    "sname": "Marblehead Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10053.pdf"
+  },
+  {
+    "lat": 46.089,
+    "lon": -85.3897,
+    "sname": "Mattix Creek",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10019.pdf"
+  },
+  {
+    "lat": 48.9668,
+    "lon": -88.2627,
+    "sname": "Nipigon R.",
+    "link": "http://www.glfc.org/pressrel/treatments/dfo_treatments_press_release.pdf"
+  },
+  {
+    "lat": 46.5767,
+    "lon": -87.3924,
+    "sname": "Dead R.",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10153.pdf"
+  },
+  {
+    "lat": 46.5187,
+    "lon": -87.3835,
+    "sname": "Carp R.",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10150.pdf"
+  },
+  {
+    "lat": 47.4558,
+    "lon": -88.1597,
+    "sname": "Eliza Cr.",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10242.pdf"
+  },
+  {
+    "lat": 46.692,
+    "lon": -91.8578,
+    "sname": "Amnicon R.",
+    "link": "http://www.glfc.org/pressrel/treatments/1_10705.pdf"
+  },
+  {
+    "lat": 42.568326,
+    "lon": -86.234436,
+    "sname": "Allegan 5 (Plummerville Cr)",
+    "link": "http://www.glfc.org/pressrel/treatments/2_10685.pdf"
+  }
+]

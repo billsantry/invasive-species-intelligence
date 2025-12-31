@@ -42,8 +42,10 @@ const layerGroups = {
     habitat: L.layerGroup().addTo(map),
     traffic: L.layerGroup(),
     iuu: L.layerGroup(),
-    barriers: L.layerGroup().addTo(map), // NEW: Shield Layer (Active by Default)
-    risk_overlay: L.layerGroup().addTo(map) // AI Layer
+    barriers: L.layerGroup().addTo(map),
+    treatments: L.layerGroup(),
+    trapping: L.layerGroup(),
+    risk_overlay: L.layerGroup().addTo(map)
 };
 
 // --- DATA: KNOWN SIGHTINGS (Layer 1) ---
@@ -81,32 +83,65 @@ L.polygon([
     .bindPopup(`<div class="popup-header">Habitat Suitability</div><div class="popup-row">Modeled as "High" for Asian Carp Complex</div><div style="font-size:0.7rem; color:#94a3b8; margin-top:0.5rem; border-top:1px solid rgba(255,255,255,0.1); padding-top:0.25rem;">Source: Scikit-Learn (Habitat Baseline v1)</div>`);
 
 
-// --- DATA: SEA LAMPREY BARRIERS (The "Shield" Layer - GLFC) ---
-const mitigationBarriers = [
-    { coords: [45.9577, -86.2462], name: "Manistique River Barrier", detail: "Active Steel Sheet Pile Control Barrier", status: "Functional" },
-    { coords: [45.6360, -84.4798], name: "Cheboygan Lock and Dam", detail: "Primary Migratory Barrier & Trap Station", status: "Functional" },
-    { coords: [46.5080, -84.3540], name: "Soo Locks Complex", detail: "Superior-Huron Connectivity Control", status: "Functional" }
-];
+// --- DATA: GLFC INFRASTRUCTURE (BARRIERS, TREATMENTS, TRAPPING) ---
+async function loadInfrastructure() {
+    try {
+        const apiUrl = (window.location.port === '8080' || window.location.protocol === 'file:')
+            ? 'http://127.0.0.1:8000/infrastructure'
+            : '/infrastructure';
 
-mitigationBarriers.forEach(b => {
-    L.circleMarker(b.coords, {
-        radius: 8,
-        color: '#38bdf8', // Light Blue / Primary Action
-        weight: 2,
-        fillColor: '#0f172a',
-        fillOpacity: 0.9,
-    })
-        .bindPopup(`
-        <div class="popup-header" style="color:#38bdf8;">🛡️ Mitigation Barrier</div>
-        <div class="popup-row" style="font-weight:600;">${b.name}</div>
-        <div class="popup-row"><span>Status:</span> <span style="color:#4ade80">${b.status}</span></div>
-        <div style="font-size:0.75rem; margin-top:0.5rem; border-top:1px solid rgba(255,255,255,0.1); padding-top:0.25rem; color:#94a3b8;">
-            ${b.detail}
-        </div>
-        <div style="font-size:0.6rem; color:#64748b; margin-top:0.4rem;">Source: GLFC Control Map Initiative</div>
-    `)
-        .addTo(layerGroups.barriers);
-});
+        console.log(`Fetching GLFC Infrastructure from: ${apiUrl}`);
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error("Infrastructure API Error");
+
+        const data = await response.json();
+
+        data.points.forEach(pt => {
+            let color = '#38bdf8'; // Default Barrier Blue
+            let radius = 5;
+            let group = layerGroups.barriers;
+            let icon = '🛡️';
+
+            if (pt.type === 'treatment') {
+                color = '#ec4899'; // Pink for treatments
+                group = layerGroups.treatments;
+                icon = '🧪';
+                radius = 4;
+            } else if (pt.type === 'trapping') {
+                color = '#facc15'; // Yellow for trapping
+                group = layerGroups.trapping;
+                icon = '🪤';
+                radius = 6;
+            } else if (pt.type === 'barrier' && pt.fc === 'No') {
+                color = '#f87171'; // Red for non-control barriers
+                icon = '⚠️';
+            }
+
+            L.circleMarker([pt.lat, pt.lon], {
+                radius: radius,
+                color: color,
+                weight: 1.5,
+                fillColor: '#0f172a',
+                fillOpacity: 0.8,
+            })
+                .bindPopup(`
+                <div class="popup-header" style="color:${color};">${icon} GLFC ${pt.type.charAt(0).toUpperCase() + pt.type.slice(1)}</div>
+                <div class="popup-row" style="font-weight:600;">${pt.name}</div>
+                ${pt.waterbody ? `<div class="popup-row"><span>Waterbody:</span> <span>${pt.waterbody}</span></div>` : ''}
+                ${pt.fc ? `<div class="popup-row"><span>Control Status:</span> <span style="color:${pt.fc === 'Yes' ? '#4ade80' : '#f87171'}">${pt.fc === 'Yes' ? 'Foundational Control' : 'Alternative Structure'}</span></div>` : ''}
+                <div style="font-size:0.65rem; color:#64748b; margin-top:0.4rem; border-top:1px solid rgba(255,255,255,0.1); padding-top:0.25rem;">
+                    Source: GLFC Sea Lamprey Control Map
+                </div>
+            `)
+                .addTo(group);
+        });
+
+    } catch (e) {
+        console.error("Infrastructure loading failed:", e);
+    }
+}
+
+loadInfrastructure();
 
 
 // --- DATA: LIVE MARITIME INTELLIGENCE (Layer 1 - Procedural AIS) ---
@@ -202,6 +237,11 @@ async function loadAILayer() {
         const data = await response.json();
         renderRiskPolygons(data.regions);
 
+        // Update Intelligence Feed
+        if (data.alerts) {
+            updateAlertsFeed(data.alerts);
+        }
+
         // Load the first region's data into the side panel as default context
         if (data.regions.length > 0) {
             updateSidePanel(data.regions[0].properties);
@@ -249,6 +289,9 @@ function renderRiskPolygons(regions) {
         const geoLayer = L.geoJSON(region.geometry, {
             style: getStyle(region.properties),
             onEachFeature: (feature, layer) => {
+                // Manually attach ID for zoomToGrid lookup
+                layer.feature = { id: region.id };
+
                 layer.on('click', () => {
                     updateSidePanel(region.properties);
                     // Highlight structure?
@@ -278,13 +321,17 @@ function renderRiskPolygons(regions) {
                     </div>
                     <div style="margin-top:0.5rem; font-size:0.7rem; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.25rem;">
                         <strong>Tracking Sources:</strong><br>
-                        ${region.properties.citations ? region.properties.citations.join('<br>') : 'Model Inference Only'}
+                        ${region.properties.citations
+                        ? region.properties.citations.map(c => `<a href="${c.href}" target="_blank" rel="noopener" style="color:var(--primary-action); text-decoration:none;">${c.label} ↗</a>`).join('<br>')
+                        : 'Model Inference Only'}
                     </div>
                 `;
                 layer.bindPopup(popupContent);
             }
         });
 
+        // Attach ID to the group layer for easy lookup
+        geoLayer.regionId = region.id;
         geoLayer.addTo(layerGroups.risk_overlay);
     });
 }
@@ -316,13 +363,66 @@ function updateSidePanel(props) {
             
             <div style="font-size: 0.75rem; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.5rem;">
                 <strong>Tracking Sources:</strong><br>
-                ${props.citations ? props.citations.join('<br>') : 'Model Inference Only'}
+                ${props.citations
+                ? props.citations.map(c => `<a href="${c.href}" target="_blank" rel="noopener" style="color:var(--primary-action); text-decoration:none; display:block; margin-top:2px;">${c.label} ↗</a>`).join('')
+                : 'Model Inference Only'}
             </div>
         `;
 
         container.style.opacity = '1';
     }, 200);
 }
+
+function updateAlertsFeed(alerts) {
+    const feedContainer = document.querySelector('.feed-container');
+    if (!feedContainer) return;
+
+    if (alerts.length === 0) {
+        feedContainer.innerHTML = '<div class="feed-item">No active alerts. All systems nominal.</div>';
+        return;
+    }
+
+    // Enrich alerts with clickable Grid links
+    feedContainer.innerHTML = alerts.map(alert => {
+        // Regex to find "grid-XXX" or "grid-XXX-can" and wrap in onclick
+        const enrichedDetail = alert.detail.replace(
+            /(grid-[\w-]+)/g,
+            '<span class="grid-link" onclick="zoomToGrid(\'$1\')">$1</span>'
+        );
+
+        return `
+        <div class="feed-item ${alert.type === 'CRITICAL' ? 'critical-alert' : ''}">
+            <div class="feed-item-header">
+                <strong class="feed-item-title">${alert.type}:</strong>
+                <span class="feed-timestamp">${alert.timestamp}</span>
+            </div>
+            <div class="feed-content">
+                <span class="${alert.type === 'CRITICAL' ? 'critical-highlight' : 'signal-highlight'}">${alert.title}</span><br>
+                ${enrichedDetail}
+            </div>
+        </div>
+    `}).join('');
+}
+
+// Global function for grid zooming
+window.zoomToGrid = function (gridId) {
+    if (!layerGroups.risk_overlay) return;
+
+    let foundLayer = null;
+    layerGroups.risk_overlay.eachLayer(layer => {
+        // Check custom property attached to the L.geoJSON layer
+        if (layer.regionId === gridId) {
+            foundLayer = layer;
+        }
+    });
+
+    if (foundLayer) {
+        map.fitBounds(foundLayer.getBounds(), { padding: [50, 50], maxZoom: 10 });
+        foundLayer.openPopup();
+    } else {
+        console.warn(`Grid ${gridId} not found on map.`);
+    }
+};
 
 function updateStatusUI(health) {
     const mapping = {
@@ -416,6 +516,31 @@ function setupUIInteractivity() {
     sidebarToggle.addEventListener('click', () => togglePanel(sidebar, sidebarIcon));
     statusToggle.addEventListener('click', () => togglePanel(statusBoard, statusIcon));
 
+    // 3. Subsection Toggles (Sidebar Sections)
+    document.querySelectorAll('.section-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const section = header.closest('.panel-section');
+            section.classList.toggle('collapsed');
+        });
+    });
+
+    // DEFAULT STATE ENFORCEMENT
+    // Collapse all except 'Intelligence Feed' (bottom section)
+    document.querySelectorAll('.panel-section').forEach(section => {
+        if (section.id === 'feed-section') {
+            section.classList.remove('collapsed');
+        } else {
+            section.classList.add('collapsed');
+        }
+    });
+
+    // Mobile Check
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+        togglePanel(sidebar, sidebarIcon, true);
+        togglePanel(statusBoard, statusIcon, true);
+    }
+
     // Auto-collapse logic: collapsed on small vertical viewports or mobile-width
     const handleResize = () => {
         const isSmallScreen = window.innerWidth <= 768 || window.innerHeight <= 700;
@@ -424,6 +549,7 @@ function setupUIInteractivity() {
             if (!sidebar.classList.contains('collapsed')) togglePanel(sidebar, sidebarIcon, true);
             if (!statusBoard.classList.contains('collapsed')) togglePanel(statusBoard, statusIcon, true);
         } else {
+            // Keep user preference if possible, but for demo we can force open on large screens
             if (sidebar.classList.contains('collapsed')) togglePanel(sidebar, sidebarIcon, false);
             if (statusBoard.classList.contains('collapsed')) togglePanel(statusBoard, statusIcon, false);
         }
@@ -472,7 +598,12 @@ updateStatusUI = function (health) {
     updateMasterStatus();
 };
 
-setupUIInteractivity();
+// Landing Page Logic (Removed)
 
-console.log("System Initialized: Invasive Species Intelligence v0.4");
+// Ensure landing page setup is called
+document.addEventListener('DOMContentLoaded', () => {
+    setupUIInteractivity();
+    console.log("System Initialized: Invasive Species Intelligence v0.5");
+});
+
 

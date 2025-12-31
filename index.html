@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Invasive Species Intelligence | v0.4 Prediction Prototype</title>
+  <title>Great Lakes Invasive Intelligence Feed | v0.5 Risk Engine</title>
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -25,13 +25,13 @@
     <!-- Header -->
     <header class="glass-panel top-bar">
       <div class="app-title">
-        <h1>Invasive Species Intelligence</h1>
-        <p class="app-subtitle">v0.4 | AI-Driven Ecosystem Risk & Maritime Enforcement</p>
+        <h1>Great Lakes Invasive Intelligence Feed</h1>
+        <p class="app-subtitle">v0.5 | AI Analysis Fusing US, Canadian, and Hyperlocal Data Streams</p>
       </div>
       <!-- Optional: Status Indicator -->
       <div class="status-indicator">
         <span id="master-status-light" class="status-dot active"></span>
-        Live Model Connected
+        <span id="status-text">Live Model Connected</span>
       </div>
     </header>
 
@@ -42,7 +42,7 @@
       <div class="sidebar-header">
         <div class="sidebar-title-wrap">
           <div class="status-dot active"></div>
-          <div class="section-title" style="margin-bottom:0;">System Intelligence</div>
+          <div class="section-title">System Intelligence</div>
         </div>
         <button id="sidebar-toggle" class="toggle-btn" aria-label="Toggle Panel">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -55,72 +55,146 @@
       <div class="sidebar-body" id="sidebar-body">
         <!-- Context Layer Controls -->
         <div class="panel-section">
-          <div class="section-title">Data Layers</div>
-          <div class="layer-toggle-group">
-            <label class="layer-item">
-              <input type="checkbox" class="layer-checkbox" value="barriers" checked>
-              <span class="layer-label">Sea Lamprey Barriers (GLFC)</span>
-            </label>
-            <label class="layer-item">
-              <input type="checkbox" class="layer-checkbox" value="sightings" checked>
-              <span class="layer-label">Known Sightings (USGS/GBIF/EDDMapS)</span>
-            </label>
-            <label class="layer-item">
-              <input type="checkbox" class="layer-checkbox" value="habitat" checked>
-              <span class="layer-label">Habitat Suitability (Model)</span>
-            </label>
-            <label class="layer-item">
-              <input type="checkbox" class="layer-checkbox" value="traffic">
-              <span class="layer-label">Commercial Vessel Traffic</span>
-            </label>
+          <div class="section-header">
+            <div class="section-title">Data Layers</div>
+            <svg class="section-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="section-content">
+            <div class="layer-toggle-group">
+              <!-- Live Systems -->
+              <div class="layer-group-header">Live Monitoring</div>
+              <label class="layer-item">
+                <input type="checkbox" class="layer-checkbox" value="sightings" checked>
+                <span class="layer-label">Known Sightings (USGS/GBIF)</span>
+              </label>
+              <label class="layer-item">
+                <input type="checkbox" class="layer-checkbox" value="traffic">
+                <span class="layer-label">Commercial Vessel Traffic (AIS)</span>
+              </label>
+
+              <!-- Model Data -->
+              <div class="layer-group-header mt-sm">Predictive Models</div>
+              <label class="layer-item">
+                <input type="checkbox" class="layer-checkbox" value="habitat" checked>
+                <span class="layer-label">Habitat Suitability (AI)</span>
+              </label>
+
+              <!-- GLFC Stack -->
+              <div class="layer-group-header mt-sm">GLFC Infrastructure</div>
+              <label class="layer-item">
+                <input type="checkbox" class="layer-checkbox" value="barriers" checked>
+                <span class="layer-label">Sea Lamprey Barriers</span>
+              </label>
+              <div class="sub-layer-group">
+                <label class="layer-item sm">
+                  <input type="checkbox" class="layer-checkbox" value="trapping">
+                  <span class="layer-label">Active Trapping Ops</span>
+                </label>
+                <label class="layer-item sm">
+                  <input type="checkbox" class="layer-checkbox" value="treatments">
+                  <span class="layer-label">Lampricide Treatments</span>
+                </label>
+              </div>
+
+            </div>
           </div>
         </div>
 
         <!-- Risk Analysis Card -->
-        <div class="panel-section">
-          <div class="section-title">Predictive Insight</div>
-          <div id="prediction-content" class="insight-card">
-            <div class="insight-metric">
-              <span>Top Threat Species</span>
-              <span id="pred-species" class="insight-value">Calculating...</span>
-            </div>
-            <div class="insight-metric">
-              <span>Risk Score</span>
-              <span id="pred-score" class="insight-value">--/100</span>
-            </div>
-            <div id="pred-expl" class="insight-desc">
-              Initializing environmental variables and fetching real-time model inference...
+        <div class="panel-section" id="prediction-section">
+          <div class="section-header">
+            <div class="section-title">Predictive Insight</div>
+            <svg class="section-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="section-content">
+            <div id="prediction-content" class="insight-card">
+              <div class="insight-metric">
+                <span>Top Threat Species</span>
+                <span id="pred-species" class="insight-value">Calculating...</span>
+              </div>
+              <div class="insight-metric">
+                <span>Risk Score</span>
+                <span id="pred-score" class="insight-value">--/100</span>
+              </div>
+              <div id="pred-expl" class="insight-desc">
+                Initializing environmental variables and fetching real-time model inference...
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Risk Vector Analysis -->
         <div class="panel-section">
-          <div class="section-title">Risk Vector Analysis</div>
-          <div class="insight-card vector-card">
-            <div class="vector-header">
-              <span class="vector-icon">🚢</span> Maritime Vector Significance
+          <div class="section-header">
+            <div class="section-title">Risk Vector Analysis</div>
+            <svg class="section-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="section-content">
+            <div class="insight-card vector-card">
+              <div class="vector-header">
+                <span class="vector-icon">🚢</span> Maritime Vector Significance
+              </div>
+              <div class="vector-text">
+                Commercial vessels are the primary pathway for <strong>65% of Great Lakes invasions</strong>. AIS
+                monitoring
+                tracks potential <strong>Ballast Water</strong> discharge and <strong>Hull Fouling</strong> vectors in
+                high-risk zones.
+              </div>
             </div>
-            <div class="vector-text">
-              Commercial vessels are the primary pathway for <strong>65% of Great Lakes invasions</strong>. AIS
-              monitoring
-              tracks potential <strong>Ballast Water</strong> discharge and <strong>Hull Fouling</strong> vectors in
-              high-risk zones.
+          </div>
+        </div>
+
+        <!-- GLFC Intelligence -->
+        <div class="panel-section">
+          <div class="section-header">
+            <div class="section-title">Infrastructure Risk</div>
+            <svg class="section-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="section-content">
+            <div class="insight-card vector-card glfc-vector-card">
+              <div class="vector-header">
+                <span class="vector-icon">🛡️</span> GLFC Barrier Synergy
+              </div>
+              <div class="vector-text">
+                Model now cross-references <strong>7,900+ structures</strong> from the GLFC Sea Lamprey Control Map.
+                Proximity to non-functional dams boosts local risk signals.
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Recent Alerts -->
-        <div class="panel-section">
-          <div class="section-title">Intelligence Feed</div>
-          <div class="feed-container">
-            <div class="feed-item">
-              <strong class="feed-item-title">New Signal:</strong> <span class="signal-highlight">Sea Lamprey</span><br>
-              High probability match in Des Plaines vector.
-            </div>
-            <div class="feed-item">
-              <strong class="feed-item-title">Vessel Alert:</strong> USGS-04<br>
-              Bi-directional movement in high-risk zone.
+        <div class="panel-section" id="feed-section">
+          <div class="section-header">
+            <div class="section-title">Intelligence Feed</div>
+            <svg class="section-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="section-content">
+            <div class="feed-container">
+              <div class="feed-item">
+                <strong class="feed-item-title">New Signal:</strong> <span class="signal-highlight">Sea
+                  Lamprey</span><br>
+                High probability match in Des Plaines vector.
+              </div>
+              <div class="feed-item">
+                <strong class="feed-item-title">Vessel Alert:</strong> USGS-04<br>
+                Bi-directional movement in high-risk zone.
+              </div>
             </div>
           </div>
         </div>
@@ -183,7 +257,7 @@
               <span>Infrastructure:</span>
             </div>
             <a href="http://data.glfc.org/" target="_blank" rel="noopener" class="status-primary-text">GLFC
-              Barriers</a>
+              Infrastructure</a>
           </div>
         </div>
         <div class="credits">
