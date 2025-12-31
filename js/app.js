@@ -390,6 +390,11 @@ function updateAlertsFeed(alerts) {
             '<span class="grid-link" onclick="zoomToGrid(\'$1\')">$1</span>'
         );
 
+        let titleHtml = `<span class="${alert.type === 'CRITICAL' ? 'critical-highlight' : 'signal-highlight'}">${alert.title}</span>`;
+        if (alert.link && alert.link !== "#") {
+            titleHtml = `<a href="${alert.link}" target="_blank" rel="noopener" class="${alert.type === 'CRITICAL' ? 'critical-highlight' : 'signal-highlight'}" style="text-decoration: none; border-bottom: 1px dotted currentColor; cursor: pointer;">${alert.title} ↗</a>`;
+        }
+
         return `
         <div class="feed-item ${alert.type === 'CRITICAL' ? 'critical-alert' : ''}">
             <div class="feed-item-header">
@@ -397,7 +402,7 @@ function updateAlertsFeed(alerts) {
                 <span class="feed-timestamp">${alert.timestamp}</span>
             </div>
             <div class="feed-content">
-                <span class="${alert.type === 'CRITICAL' ? 'critical-highlight' : 'signal-highlight'}">${alert.title}</span><br>
+                ${titleHtml}<br>
                 ${enrichedDetail}
             </div>
         </div>

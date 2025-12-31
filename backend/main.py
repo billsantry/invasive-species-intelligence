@@ -549,11 +549,15 @@ async def get_predictions():
         # Check if drivers mentions sightings
         for d in r['drivers']:
             if "sightings:" in d.lower():
+                sci_name = SPECIES_MAP.get(r['species'], "").replace(" ", "%20")
+                gbif_link = f"https://www.gbif.org/occurrence/search?scientific_name={sci_name}&has_coordinate=true" if sci_name else "#"
+
                 alerts.append({
                     "type": "SIGNAL",
                     "title": f"New Sighting: {r['species']}",
                     "detail": d,
-                    "timestamp": "RECENT"
+                    "timestamp": "RECENT",
+                    "link": gbif_link
                 })
 
     return PredictionsResponse(
