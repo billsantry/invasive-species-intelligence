@@ -442,13 +442,14 @@ async def get_predictions():
         "maritime": "green", # Simulation is always "active"
         "us_data": "green" if any(r['citations'] and "USGS" in str(r['citations']) for r in quant_results) else "red",
         "canada_data": "green" if any(r['citations'] and ("Water Survey" in str(r['citations']) or "Environment and Climate" in str(r['citations'])) for r in quant_results) else "red",
-        "integrity": "green" if any(r['citations'] and "GBIF" in str(r['citations']) for r in quant_results) else "red"
+        "integrity": "green" if any(r['citations'] and "GBIF" in str(r['citations']) for r in quant_results) else "red",
+        "infrastructure": "green" # GLFC Barrier Status Placeholder
     }
 
     return PredictionsResponse(
         metadata={
-            "model_version": "v1.6-health-monitored",
-            "source": "Scikit-Learn + OpenAI + USGS (US) + WSC/MSC (Canada) + GBIF (Global)",
+            "model_version": "v1.7-glfc-enhanced",
+            "source": "Scikit-Learn + OpenAI + USGS (US) + WSC/MSC (Canada) + GBIF (Global) + GLFC (Infrastructure)",
             "health": health
         },
         regions=processed_regions

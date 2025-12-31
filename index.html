@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Invasive Species Intelligence | v0.3 Prediction Prototype</title>
+  <title>Invasive Species Intelligence | v0.4 Prediction Prototype</title>
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -26,7 +26,7 @@
     <header class="glass-panel top-bar">
       <div class="app-title">
         <h1>Invasive Species Intelligence</h1>
-        <p class="app-subtitle">v0.3 | AI-Driven Ecosystem Risk & Maritime Enforcement</p>
+        <p class="app-subtitle">v0.4 | AI-Driven Ecosystem Risk & Maritime Enforcement</p>
       </div>
       <!-- Optional: Status Indicator -->
       <div class="status-indicator">
@@ -57,6 +57,10 @@
         <div class="panel-section">
           <div class="section-title">Data Layers</div>
           <div class="layer-toggle-group">
+            <label class="layer-item">
+              <input type="checkbox" class="layer-checkbox" value="barriers" checked>
+              <span class="layer-label">Sea Lamprey Barriers (GLFC)</span>
+            </label>
             <label class="layer-item">
               <input type="checkbox" class="layer-checkbox" value="sightings" checked>
               <span class="layer-label">Known Sightings (USGS/GBIF/EDDMapS)</span>
@@ -172,6 +176,14 @@
             </div>
             <a href="https://www.gbif.org/" target="_blank" rel="noopener" class="status-primary-text">GBIF
               Cross-Ref</a>
+          </div>
+          <div class="status-row">
+            <div class="status-row-wrap">
+              <div id="dot-glfc" class="status-row-dot"></div>
+              <span>Infrastructure:</span>
+            </div>
+            <a href="http://data.glfc.org/" target="_blank" rel="noopener" class="status-primary-text">GLFC
+              Barriers</a>
           </div>
         </div>
         <div class="credits">

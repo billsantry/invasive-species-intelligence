@@ -1,4 +1,4 @@
-// Invasive Species Intelligence Tool v0.3
+// Invasive Species Intelligence Tool v0.4
 // Application Logic
 
 /* =========================================================================
@@ -42,6 +42,7 @@ const layerGroups = {
     habitat: L.layerGroup().addTo(map),
     traffic: L.layerGroup(),
     iuu: L.layerGroup(),
+    barriers: L.layerGroup().addTo(map), // NEW: Shield Layer (Active by Default)
     risk_overlay: L.layerGroup().addTo(map) // AI Layer
 };
 
@@ -78,6 +79,34 @@ L.polygon([
     dashArray: '5, 5'
 }).bindTooltip("Known Suitable Habitat Zone").addTo(layerGroups.habitat)
     .bindPopup(`<div class="popup-header">Habitat Suitability</div><div class="popup-row">Modeled as "High" for Asian Carp Complex</div><div style="font-size:0.7rem; color:#94a3b8; margin-top:0.5rem; border-top:1px solid rgba(255,255,255,0.1); padding-top:0.25rem;">Source: Scikit-Learn (Habitat Baseline v1)</div>`);
+
+
+// --- DATA: SEA LAMPREY BARRIERS (The "Shield" Layer - GLFC) ---
+const mitigationBarriers = [
+    { coords: [45.9577, -86.2462], name: "Manistique River Barrier", detail: "Active Steel Sheet Pile Control Barrier", status: "Functional" },
+    { coords: [45.6360, -84.4798], name: "Cheboygan Lock and Dam", detail: "Primary Migratory Barrier & Trap Station", status: "Functional" },
+    { coords: [46.5080, -84.3540], name: "Soo Locks Complex", detail: "Superior-Huron Connectivity Control", status: "Functional" }
+];
+
+mitigationBarriers.forEach(b => {
+    L.circleMarker(b.coords, {
+        radius: 8,
+        color: '#38bdf8', // Light Blue / Primary Action
+        weight: 2,
+        fillColor: '#0f172a',
+        fillOpacity: 0.9,
+    })
+        .bindPopup(`
+        <div class="popup-header" style="color:#38bdf8;">🛡️ Mitigation Barrier</div>
+        <div class="popup-row" style="font-weight:600;">${b.name}</div>
+        <div class="popup-row"><span>Status:</span> <span style="color:#4ade80">${b.status}</span></div>
+        <div style="font-size:0.75rem; margin-top:0.5rem; border-top:1px solid rgba(255,255,255,0.1); padding-top:0.25rem; color:#94a3b8;">
+            ${b.detail}
+        </div>
+        <div style="font-size:0.6rem; color:#64748b; margin-top:0.4rem;">Source: GLFC Control Map Initiative</div>
+    `)
+        .addTo(layerGroups.barriers);
+});
 
 
 // --- DATA: LIVE MARITIME INTELLIGENCE (Layer 1 - Procedural AIS) ---
@@ -300,7 +329,8 @@ function updateStatusUI(health) {
         'maritime': 'dot-maritime',
         'us_data': 'dot-us',
         'canada_data': 'dot-canada',
-        'integrity': 'dot-gbif'
+        'integrity': 'dot-gbif',
+        'infrastructure': 'dot-glfc'
     };
 
     Object.keys(health).forEach(key => {
@@ -444,5 +474,5 @@ updateStatusUI = function (health) {
 
 setupUIInteractivity();
 
-console.log("System Initialized: Invasive Species Intelligence v0.3");
+console.log("System Initialized: Invasive Species Intelligence v0.4");
 
